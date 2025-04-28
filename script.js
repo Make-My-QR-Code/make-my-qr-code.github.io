@@ -24,6 +24,7 @@ const generateBtn = document.getElementById("generateBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 const downloadFormatSelect = document.getElementById("downloadFormat");
 const previewDiv = document.getElementById("qrPreview");
+const templateGallery = document.getElementById("templateGallery"); // Added template gallery element
 
 // --- Logo Handling ---
 const removeLogoBtn = document.getElementById("removeLogoBtn");
@@ -38,6 +39,146 @@ const errorCorrectionLevelSelect = document.getElementById(
   "errorCorrectionLevel"
 );
 const qrMarginSlider = document.getElementById("qrMargin");
+
+// --- Template Definitions ---
+const qrTemplates = [
+  {
+    name: "Classic Dark",
+    options: {
+      dotsOptions: { type: "square", color: "#000000" },
+      cornersSquareOptions: { type: "square", color: "#000000" },
+      cornersDotOptions: { type: "square", color: "#000000" },
+      backgroundOptions: { color: "#FFFFFF" },
+    },
+  },
+  {
+    name: "Blue Rounded",
+    options: {
+      dotsOptions: { type: "rounded", color: "#007bff" },
+      cornersSquareOptions: { type: "extra-rounded", color: "#0056b3" },
+      cornersDotOptions: { type: "dot", color: "#0056b3" },
+      backgroundOptions: { color: "#FFFFFF" },
+    },
+  },
+  {
+    name: "Green Classy",
+    options: {
+      dotsOptions: { type: "classy", color: "#198754" },
+      cornersSquareOptions: { type: "extra-rounded", color: "#146c43" },
+      cornersDotOptions: { type: "dot", color: "#146c43" },
+      backgroundOptions: { color: "#f8f9fa" },
+    },
+  },
+  {
+    name: "Red Dots",
+    options: {
+      dotsOptions: { type: "dots", color: "#dc3545" },
+      cornersSquareOptions: { type: "square", color: "#b02a37" },
+      cornersDotOptions: { type: "square", color: "#b02a37" },
+      backgroundOptions: { color: "#FFFFFF" },
+    },
+  },
+  {
+    name: "Orange Extra Rounded",
+    options: {
+      dotsOptions: { type: "extra-rounded", color: "#fd7e14" },
+      cornersSquareOptions: { type: "extra-rounded", color: "#e6730d" },
+      cornersDotOptions: { type: "dot", color: "#e6730d" },
+      backgroundOptions: { color: "#FFFFFF" },
+    },
+  },
+  // Add more templates here later (e.g., with gradients)
+  {
+    name: "Deep Ocean",
+    options: {
+      dotsOptions: { type: "dots", color: "#0d6efd" }, // Blue dots
+      cornersSquareOptions: { type: "extra-rounded", color: "#0a58ca" }, // Darker blue corners
+      cornersDotOptions: { type: "dot", color: "#0a58ca" },
+      backgroundOptions: { color: "#e7f1ff" }, // Very light blue background
+    },
+  },
+  {
+    name: "Emerald Classy",
+    options: {
+      dotsOptions: { type: "classy-rounded", color: "#198754" }, // Green classy-rounded
+      cornersSquareOptions: { type: "square", color: "#146c43" }, // Darker green square corners
+      cornersDotOptions: { type: "square", color: "#146c43" },
+      backgroundOptions: { color: "#FFFFFF" },
+    },
+  },
+  {
+    name: "Purple Dots",
+    options: {
+      dotsOptions: { type: "dots", color: "#6f42c1" }, // Purple dots
+      cornersSquareOptions: { type: "dot", color: "#5a349b" }, // Darker purple dot corners
+      cornersDotOptions: { type: "dot", color: "#5a349b" },
+      backgroundOptions: { color: "#f8f5fc" }, // Very light purple background
+    },
+  },
+  {
+    name: "Mono Black Rounded",
+    options: {
+      dotsOptions: { type: "rounded", color: "#000000" },
+      cornersSquareOptions: { type: "extra-rounded", color: "#000000" },
+      cornersDotOptions: { type: "dot", color: "#000000" },
+      backgroundOptions: { color: "#FFFFFF" },
+    },
+  },
+  {
+    name: "Teal Sharp",
+    options: {
+      dotsOptions: { type: "square", color: "#20c997" }, // Teal square dots
+      cornersSquareOptions: { type: "square", color: "#1aa37a" }, // Darker teal square corners
+      cornersDotOptions: { type: "square", color: "#1aa37a" },
+      backgroundOptions: { color: "#FFFFFF" },
+    },
+  },
+  {
+    name: "Soft Pink",
+    options: {
+      dotsOptions: { type: "extra-rounded", color: "#d63384" }, // Pink extra-rounded dots
+      cornersSquareOptions: { type: "extra-rounded", color: "#b42b6e" }, // Darker pink corners
+      cornersDotOptions: { type: "dot", color: "#b42b6e" },
+      backgroundOptions: { color: "#fdf4f8" }, // Very light pink background
+    },
+  },
+  {
+    name: "Dark Classy",
+    options: {
+      dotsOptions: { type: "classy", color: "#FFFFFF" }, // White dots
+      cornersSquareOptions: { type: "square", color: "#FFFFFF" }, // White corners
+      cornersDotOptions: { type: "square", color: "#FFFFFF" },
+      backgroundOptions: { color: "#212529" }, // Dark background
+    },
+  },
+  {
+    name: "Gold Standard",
+    options: {
+      dotsOptions: { type: "rounded", color: "#b59410" }, // Gold-ish rounded dots
+      cornersSquareOptions: { type: "extra-rounded", color: "#8c730c" }, // Darker gold corners
+      cornersDotOptions: { type: "dot", color: "#8c730c" },
+      backgroundOptions: { color: "#fffbf0" }, // Light cream background
+    },
+  },
+  {
+    name: "Graphite Smooth",
+    options: {
+      dotsOptions: { type: "rounded", color: "#495057" }, // Dark gray rounded
+      cornersSquareOptions: { type: "extra-rounded", color: "#343a40" }, // Black corners
+      cornersDotOptions: { type: "dot", color: "#343a40" },
+      backgroundOptions: { color: "#e9ecef" }, // Light gray background
+    },
+  },
+  {
+    name: "Cyber Green",
+    options: {
+      dotsOptions: { type: "square", color: "#00ff00" }, // Bright green square dots
+      cornersSquareOptions: { type: "square", color: "#00cc00" }, // Slightly darker green corners
+      cornersDotOptions: { type: "square", color: "#00cc00" },
+      backgroundOptions: { color: "#0a0a0a" }, // Near black background
+    },
+  },
+];
 
 // --- Tab Switching Logic ---
 function activateTab(targetTabId) {
@@ -370,12 +511,94 @@ Object.entries(sliderValueDisplays).forEach(([sliderId, displayId]) => {
   }
 });
 
+// --- Populate Template Gallery ---
+function populateTemplateGallery() {
+  if (!templateGallery) return;
+  templateGallery.innerHTML = ""; // Clear existing items
+
+  qrTemplates.forEach((template, index) => {
+    const item = document.createElement("div");
+    item.className = "template-item";
+    item.setAttribute("data-template-index", index);
+
+    const previewContainer = document.createElement("div");
+    previewContainer.className = "template-preview";
+    // Generate a mini preview (using the library itself)
+    const previewQR = new QRCodeStyling({
+      width: 70,
+      height: 70,
+      margin: 5,
+      data: "Template", // Dummy data for preview
+      ...template.options, // Apply template styles
+    });
+    previewQR.append(previewContainer);
+
+    const name = document.createElement("div");
+    name.className = "template-name";
+    name.textContent = template.name;
+
+    item.appendChild(previewContainer);
+    item.appendChild(name);
+    templateGallery.appendChild(item);
+  });
+}
+
+// --- Apply Template Logic ---
+function applyTemplate(templateIndex) {
+  if (templateIndex < 0 || templateIndex >= qrTemplates.length) return;
+
+  const template = qrTemplates[templateIndex];
+  console.log("Applying template:", template.name);
+
+  // Update UI controls to match template settings
+  // Style & Color Tab
+  if (dotStyleSelect)
+    dotStyleSelect.value = template.options.dotsOptions?.type || "square";
+  if (fgColorInput)
+    fgColorInput.value = template.options.dotsOptions?.color || "#000000";
+  if (cornerSquareStyleSelect)
+    cornerSquareStyleSelect.value =
+      template.options.cornersSquareOptions?.type || "square";
+  if (cornerDotStyleSelect)
+    cornerDotStyleSelect.value =
+      template.options.cornersDotOptions?.type || "square";
+  // Assuming corner colors match foreground for simplicity in these basic templates
+  if (bgColorInput)
+    bgColorInput.value = template.options.backgroundOptions?.color || "#FFFFFF";
+
+  // TODO: Update gradient controls if/when they are added
+
+  // Note: We are NOT updating logo, size, margin, ECL from basic templates
+  // Those remain user-configurable after applying a style template.
+
+  // Trigger QR regeneration
+  generateQR();
+
+  // Optional: Switch back to the Style tab after applying
+  // activateTab('style-tab');
+}
+
+// Add listener for template gallery clicks (using event delegation)
+if (templateGallery) {
+  templateGallery.addEventListener("click", (event) => {
+    const templateItem = event.target.closest(".template-item");
+    if (templateItem) {
+      const index = parseInt(
+        templateItem.getAttribute("data-template-index"),
+        10
+      );
+      applyTemplate(index);
+    }
+  });
+}
+
 // --- Initial State ---
 downloadBtn.disabled = true;
 // Activate the first tab on load
 activateTab("content-tab");
 // Generate initial QR on load
 window.addEventListener("load", () => {
+  populateTemplateGallery(); // Populate gallery on load
   if (textInput.value) generateQR();
   if (removeLogoBtn) removeLogoBtn.style.display = "none";
   // Update initial slider values
