@@ -18,7 +18,7 @@ body {
     border-radius: 16px; /* More rounded corners */
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Softer shadow */
     width: 100%;
-    max-width: 900px; /* Increased max-width for two columns */
+    max-width: 1000px; /* Adjusted for potentially wider options */
     box-sizing: border-box;
     opacity: 0;
     transform: translateY(20px);
@@ -238,4 +238,121 @@ button:disabled {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* --- Layout --- */
+.container {
+    /* ... */
+    max-width: 1000px; /* Adjusted for potentially wider options */
+}
+
+/* ... (keep .main-layout, .options-panel, .preview-panel) ... */
+
+/* --- Tab Navigation --- */
+.tab-nav {
+    display: flex;
+    border-bottom: 2px solid #dee2e6;
+    margin-bottom: 1.5rem;
+}
+
+.tab-button {
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: #495057;
+    font-size: 1rem;
+    font-weight: 500;
+    border-bottom: 3px solid transparent; /* Placeholder for active state */
+    margin-bottom: -2px; /* Align bottom border with nav border */
+    transition: color 0.2s ease, border-bottom-color 0.2s ease;
+}
+
+.tab-button:hover {
+    color: #0056b3;
+}
+
+.tab-button.active {
+    color: #007bff;
+    border-bottom-color: #007bff;
+}
+
+/* --- Tab Content --- */
+.tab-content {
+    display: none; /* Hide inactive tabs */
+}
+
+.tab-content.active {
+    display: block; /* Show active tab */
+}
+
+.options-section {
+    /* ... (keep existing styles) ... */
+    border: 1px solid #e9ecef;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background-color: #ffffff; 
+}
+
+.options-section.no-border {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+}
+
+/* ... (keep other styles: Section Styling, Input Styling, etc.) ... */
+
+/* --- Specific Elements within Tabs --- */
+#logoPreview {
+    display: none; /* Hide initially */
+    vertical-align: middle;
+    margin-left: 10px; /* Space it from the button */
+    border: 1px solid #e0e0e0;
+    padding: 2px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+}
+
+/* Download Area Styling */
+.download-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.download-section .input-group {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.download-section label {
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+
+.download-section select {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+    min-width: 80px;
+}
+
+.download-section button {
+    flex-grow: 1; /* Allow button to take remaining space */
+    padding: 0.7rem 1rem;
+}
+
+/* ... (keep responsive styles, adjust breakpoints/styles if needed) ... */
+@media (max-width: 1000px) { /* Adjusted breakpoint */
+    .main-layout {
+        grid-template-columns: 1fr; /* Stack columns */
+        gap: 2rem;
+    }
+    /* ... */
 } 
