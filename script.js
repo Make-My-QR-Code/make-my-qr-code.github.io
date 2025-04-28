@@ -326,23 +326,95 @@ const qrTemplates = [
   },
 ];
 
-// --- Tab Switching Logic ---
+// --- Tab Navigation ---
 function activateTab(targetTabId) {
   tabButtons.forEach((button) => {
-    button.classList.toggle(
-      "active",
-      button.getAttribute("data-tab") === targetTabId
-    );
+    const tabId = button.getAttribute("data-tab");
+    button.classList.toggle("active", tabId === targetTabId);
   });
+
   tabContents.forEach((content) => {
     content.classList.toggle("active", content.id === targetTabId);
   });
+
+  // On mobile, scroll the active tab button into view smoothly
+  if (window.innerWidth <= 767) {
+    const activeButton = document.querySelector(
+      `.tab-button[data-tab="${targetTabId}"]`
+    );
+    if (activeButton) {
+      const tabNav = document.querySelector(".tab-nav");
+      const buttonRect = activeButton.getBoundingClientRect();
+      const navRect = tabNav.getBoundingClientRect();
+      const scrollLeft = tabNav.scrollLeft;
+      const buttonOffset = buttonRect.left - navRect.left;
+      const buttonWidth = buttonRect.width;
+      const navWidth = navRect.width;
+
+      // Calculate the target scroll position to center the button
+      const targetScroll =
+        scrollLeft + buttonOffset - navWidth / 2 + buttonWidth / 2;
+
+      // Smooth scroll to the target position
+      tabNav.scrollTo({
+        left: targetScroll,
+        behavior: "smooth",
+      });
+    }
+  }
 }
 
-tabButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    activateTab(button.getAttribute("data-tab"));
-  });
+// Add scroll position detection for tab navigation
+function updateTabScrollIndicators() {
+  const tabNav = document.querySelector(".tab-nav");
+  if (!tabNav) return;
+
+  const isOverflowing = tabNav.scrollWidth > tabNav.clientWidth;
+  tabNav.classList.toggle("tabs-overflow", isOverflowing);
+
+  if (isOverflowing) {
+    const scrollLeft = tabNav.scrollLeft;
+    const maxScroll = tabNav.scrollWidth - tabNav.clientWidth;
+
+    tabNav.classList.toggle("scroll-start", scrollLeft === 0);
+    tabNav.classList.toggle("scroll-end", scrollLeft >= maxScroll - 1);
+  }
+}
+
+// Add event listeners for tab navigation
+document.addEventListener("DOMContentLoaded", () => {
+  const tabNav = document.querySelector(".tab-nav");
+  if (tabNav) {
+    // Check overflow on load and resize
+    updateTabScrollIndicators();
+    window.addEventListener("resize", updateTabScrollIndicators);
+
+    // Update indicators on scroll
+    tabNav.addEventListener("scroll", updateTabScrollIndicators);
+
+    // Add touch event handling for smoother scrolling
+    let touchStartX = 0;
+    let touchStartScrollLeft = 0;
+    let isScrolling = false;
+
+    tabNav.addEventListener("touchstart", (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartScrollLeft = tabNav.scrollLeft;
+      isScrolling = true;
+    });
+
+    tabNav.addEventListener("touchmove", (e) => {
+      if (!isScrolling) return;
+      const touchX = e.touches[0].clientX;
+      const diff = touchStartX - touchX;
+      tabNav.scrollLeft = touchStartScrollLeft + diff;
+    });
+
+    tabNav.addEventListener("touchend", () => {
+      isScrolling = false;
+      updateTabScrollIndicators();
+    });
+  }
 });
 
 function handleLogoUpload(event) {
@@ -670,130 +742,16 @@ function downloadQR() {
   }
 }
 
-// --- Event Listeners ---
-
-// generateBtn.addEventListener('click', generateQR); // Remove or repurpose if not needed
-downloadBtn.addEventListener("click", downloadQR);
-
-// Listener for logo upload
-if (logoUploadInput) {
-  logoUploadInput.addEventListener("change", handleLogoUpload);
-} else {
-  console.warn("Logo upload input element not found.");
+// --- Detect mobile devices ---
+function isMobileDevice() {
+  return (
+    window.innerWidth <= 767 ||
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0
+  );
 }
 
-// Listener for Remove Logo button
-if (removeLogoBtn) {
-  removeLogoBtn.addEventListener("click", removeLogo);
-  removeLogoBtn.style.display = "none"; // Initially hidden
-} else {
-  console.warn("Remove logo button element not found.");
-}
-
-// Add listeners for gradient enable checkboxes
-dotGradientEnableCheckbox?.addEventListener("change", () => {
-  toggleGradientControls(
-    dotGradientEnableCheckbox,
-    dotSolidColorGroupDiv,
-    dotGradientControlsDiv
-  );
-  generateQR();
-});
-bgGradientEnableCheckbox?.addEventListener("change", () => {
-  toggleGradientControls(
-    bgGradientEnableCheckbox,
-    bgSolidColorGroupDiv,
-    bgGradientControlsDiv
-  );
-  generateQR();
-});
-cornerSquareGradientEnableCheckbox?.addEventListener("change", () => {
-  toggleGradientControls(
-    cornerSquareGradientEnableCheckbox,
-    cornerSquareSolidColorGroupDiv,
-    cornerSquareGradientControlsDiv
-  );
-  generateQR();
-});
-
-// Listener for live updates from ALL controls (including new gradient controls)
-const allControls = [
-  textInput,
-  sizeInput,
-  // Solid Colors (now potentially hidden)
-  fgColorInput,
-  bgColorInput,
-  cornerSquareColorInput,
-  // Styles
-  dotStyleSelect,
-  cornerSquareStyleSelect,
-  cornerDotStyleSelect,
-  // Logo
-  logoSizeSlider,
-  logoMarginSlider,
-  logoBackgroundCheckbox,
-  // Advanced
-  errorCorrectionLevelSelect,
-  qrMarginSlider,
-  // Gradients
-  dotGradientEnableCheckbox,
-  bgGradientEnableCheckbox,
-  cornerSquareGradientEnableCheckbox,
-  dotGradientTypeLinearRadio /* Add other radio buttons if needed */,
-  dotGradientColor1Input,
-  dotGradientColor2Input,
-  dotGradientRotationSlider,
-  bgGradientTypeLinearRadio,
-  bgGradientColor1Input,
-  bgGradientColor2Input,
-  bgGradientRotationSlider,
-  cornerSquareGradientTypeLinearRadio,
-  cornerSquareGradientColor1Input,
-  cornerSquareGradientColor2Input,
-  cornerSquareGradientRotationSlider,
-];
-
-allControls.forEach((control) => {
-  if (control) {
-    const eventType =
-      control.type === "checkbox" || control.type === "select-one"
-        ? "change"
-        : "input";
-    let debounceTimeout;
-    control.addEventListener(eventType, () => {
-      clearTimeout(debounceTimeout);
-      // Longer debounce for text input, shorter for others
-      const delay = control === textInput ? 400 : 150;
-      debounceTimeout = setTimeout(generateQR, delay);
-    });
-  } else {
-    // console.warn("An input control element was not found.");
-  }
-});
-
-// Update slider value displays (including new gradient rotation sliders)
-const sliderValueDisplays = {
-  logoSize: "logoSizeValue",
-  logoMargin: "logoMarginValue",
-  qrMargin: "qrMarginValue",
-  dotGradientRotation: "dotGradientRotationValue",
-  bgGradientRotation: "bgGradientRotationValue",
-  cornerSquareGradientRotation: "cornerSquareGradientRotationValue",
-};
-Object.entries(sliderValueDisplays).forEach(([sliderId, displayId]) => {
-  const slider = document.getElementById(sliderId);
-  const display = document.getElementById(displayId);
-  if (slider && display) {
-    slider.addEventListener(
-      "input",
-      () => (display.textContent = slider.value)
-    );
-    // Set initial value on load
-    display.textContent = slider.value;
-  }
-});
-
-// --- Populate Template Gallery ---
+// --- Other functions from around line 800 in the original file ---
 function populateTemplateGallery() {
   if (!templateGallery) return;
   templateGallery.innerHTML = ""; // Clear existing items
@@ -834,7 +792,6 @@ function applyTemplate(templateIndex) {
   console.log("Applying template:", template.name);
 
   // --- Update UI controls ---
-
   // Style & Color Tab
   if (dotStyleSelect)
     dotStyleSelect.value = options.dotsOptions?.type || "square";
@@ -949,6 +906,122 @@ function updateAllSliderDisplays() {
   });
 }
 
+// --- Event Listeners ---
+
+// Add tab switching logic
+tabButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const tabId = button.getAttribute("data-tab");
+    activateTab(tabId);
+  });
+});
+
+// Listener for logo upload
+if (logoUploadInput) {
+  logoUploadInput.addEventListener("change", handleLogoUpload);
+} else {
+  console.warn("Logo upload input element not found.");
+}
+
+// Listener for Remove Logo button
+if (removeLogoBtn) {
+  removeLogoBtn.addEventListener("click", removeLogo);
+  removeLogoBtn.style.display = "none"; // Initially hidden
+} else {
+  console.warn("Remove logo button element not found.");
+}
+
+// Add listeners for gradient enable checkboxes
+dotGradientEnableCheckbox?.addEventListener("change", () => {
+  toggleGradientControls(
+    dotGradientEnableCheckbox,
+    dotSolidColorGroupDiv,
+    dotGradientControlsDiv
+  );
+  generateQR();
+});
+bgGradientEnableCheckbox?.addEventListener("change", () => {
+  toggleGradientControls(
+    bgGradientEnableCheckbox,
+    bgSolidColorGroupDiv,
+    bgGradientControlsDiv
+  );
+  generateQR();
+});
+cornerSquareGradientEnableCheckbox?.addEventListener("change", () => {
+  toggleGradientControls(
+    cornerSquareGradientEnableCheckbox,
+    cornerSquareSolidColorGroupDiv,
+    cornerSquareGradientControlsDiv
+  );
+  generateQR();
+});
+
+// Listener for live updates from ALL controls (including new gradient controls)
+const allControls = [
+  textInput,
+  sizeInput,
+  // Solid Colors (now potentially hidden)
+  fgColorInput,
+  bgColorInput,
+  cornerSquareColorInput,
+  // Styles
+  dotStyleSelect,
+  cornerSquareStyleSelect,
+  cornerDotStyleSelect,
+  // Logo
+  logoSizeSlider,
+  logoMarginSlider,
+  logoBackgroundCheckbox,
+  // Advanced
+  errorCorrectionLevelSelect,
+  qrMarginSlider,
+  // Gradients
+  dotGradientEnableCheckbox,
+  bgGradientEnableCheckbox,
+  cornerSquareGradientEnableCheckbox,
+  dotGradientTypeLinearRadio /* Add other radio buttons if needed */,
+  dotGradientColor1Input,
+  dotGradientColor2Input,
+  dotGradientRotationSlider,
+  bgGradientTypeLinearRadio,
+  bgGradientColor1Input,
+  bgGradientColor2Input,
+  bgGradientRotationSlider,
+  cornerSquareGradientTypeLinearRadio,
+  cornerSquareGradientColor1Input,
+  cornerSquareGradientColor2Input,
+  cornerSquareGradientRotationSlider,
+];
+
+allControls.forEach((control) => {
+  if (control) {
+    const eventType =
+      control.type === "checkbox" || control.type === "select-one"
+        ? "change"
+        : "input";
+    let debounceTimeout;
+    control.addEventListener(eventType, () => {
+      clearTimeout(debounceTimeout);
+      // Longer debounce for text input, shorter for others
+      const delay = control === textInput ? 400 : 150;
+      debounceTimeout = setTimeout(generateQR, delay);
+    });
+  } else {
+    // console.warn("An input control element was not found.");
+  }
+});
+
+// Update slider value displays (including new gradient rotation sliders)
+const sliderValueDisplays = {
+  logoSize: "logoSizeValue",
+  logoMargin: "logoMarginValue",
+  qrMargin: "qrMarginValue",
+  dotGradientRotation: "dotGradientRotationValue",
+  bgGradientRotation: "bgGradientRotationValue",
+  cornerSquareGradientRotation: "cornerSquareGradientRotationValue",
+};
+
 // Add listener for template gallery clicks (using event delegation)
 if (templateGallery) {
   templateGallery.addEventListener("click", (event) => {
@@ -991,10 +1064,14 @@ accordionHeaders.forEach((header) => {
   });
 });
 
+// --- Download Button Event Listener ---
+downloadBtn.addEventListener("click", downloadQR);
+
 // --- Initial State ---
 downloadBtn.disabled = true;
 // Activate the first tab on load
 activateTab("content-tab");
+
 // Generate initial QR on load
 window.addEventListener("load", () => {
   populateTemplateGallery(); // Populate gallery on load
@@ -1033,4 +1110,47 @@ window.addEventListener("load", () => {
         }
       }
     });
+
+  // Optimize touch experience on mobile
+  if (isMobileDevice()) {
+    // Increase tap target sizes for mobile
+    const touchElements = document.querySelectorAll(
+      ".accordion-header, .template-item"
+    );
+    touchElements.forEach((el) => {
+      el.classList.add("touch-optimized");
+    });
+
+    // Automatic horizontal scrolling on the tabs to ensure visibility
+    const tabNav = document.querySelector(".tab-nav");
+    if (tabNav) {
+      // Add small left-right indicators if tabs overflow
+      const checkTabsOverflow = () => {
+        const isOverflowing = tabNav.scrollWidth > tabNav.clientWidth;
+        tabNav.classList.toggle("tabs-overflow", isOverflowing);
+      };
+
+      // Check on load and resize
+      checkTabsOverflow();
+      window.addEventListener("resize", checkTabsOverflow);
+    }
+  }
+});
+
+// Add orientation change handling
+window.addEventListener("orientationchange", () => {
+  // Small delay to allow the browser to complete orientation change
+  setTimeout(() => {
+    // If any accordions are open, readjust their content
+    document
+      .querySelectorAll('.accordion-content[style*="display: block"]')
+      .forEach((content) => {
+        // Force a small layout adjustment
+        content.style.display = "none";
+        setTimeout(() => (content.style.display = "block"), 50);
+      });
+
+    // Re-generate QR with appropriate size for the new orientation
+    generateQR();
+  }, 300);
 });
