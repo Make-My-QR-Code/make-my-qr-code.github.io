@@ -22,6 +22,7 @@ const logoBackgroundCheckbox = document.getElementById("logoBackground"); // Hid
 // Buttons & Preview
 const generateBtn = document.getElementById("generateBtn");
 const downloadBtn = document.getElementById("downloadBtn");
+const downloadFormatSelect = document.getElementById("downloadFormat");
 const previewDiv = document.getElementById("qrPreview");
 
 // --- Logo Handling ---
@@ -200,7 +201,7 @@ function generateQR() {
   }, 10); // Minimal delay
 }
 
-// --- QR Code Download (using qr-code-styling) ---
+// --- QR Code Download (using qr-code-styling and jsPDF) ---
 function downloadQR() {
   if (!qrCodeInstance) {
     alert("Please generate a QR code first.");
@@ -214,21 +215,86 @@ function downloadQR() {
       .replace(/[^a-zA-Z0-9]/g, "_") || "qrcode";
   const size =
     qrCodeInstance._options.width || parseInt(sizeInput.value) || 300;
-  const format = downloadFormatSelect ? downloadFormatSelect.value : "png"; // Read format
+  const format = downloadFormatSelect ? downloadFormatSelect.value : "png";
   const filename = `${text}_${size}x${size}`;
 
-  qrCodeInstance
-    .download({
-      name: filename,
-      extension: format, // Use selected format
-    })
-    .then(() => {
-      console.log(`Download initiated as ${format}.`);
-    })
-    .catch((error) => {
-      console.error("Download failed:", error);
-      alert(`Failed to download QR code as ${format}.`);
-    });
+  // Disable button during download prep
+  downloadBtn.disabled = true;
+  downloadBtn.textContent = "Preparing...";
+
+  if (format === "pdf") {
+    // --- PDF Download Logic ---
+    qrCodeInstance
+      .getRawData("png")
+      .then((blob) => {
+        if (!blob) {
+          throw new Error("Failed to get QR code image data.");
+        }
+        const { jsPDF } = window.jspdf; // Get jsPDF constructor
+        const doc = new jsPDF({
+          orientation: "portrait",
+          unit: "px", // Use pixels for easier coordination with QR size
+          format: [size + 40, size + 40], // Set page size based on QR size + padding (e.g., 20px padding)
+        });
+
+        const padding = 20; // Define padding in pixels
+        const imgWidth = size;
+        const imgHeight = size;
+
+        // Create an object URL for the image blob
+        const objectURL = URL.createObjectURL(blob);
+
+        // Add image to PDF (centered with padding)
+        doc.addImage(objectURL, "PNG", padding, padding, imgWidth, imgHeight);
+
+        // Clean up the object URL immediately after adding
+        URL.revokeObjectURL(objectURL);
+
+        // Save the PDF
+        doc.save(filename + ".pdf");
+        console.log("PDF Download initiated.");
+      })
+      .catch((error) => {
+        console.error("PDF Download failed:", error);
+        alert("Failed to generate PDF for download. See console for details.");
+      })
+      .finally(() => {
+        // Re-enable button regardless of success/failure
+        downloadBtn.disabled = false;
+        downloadBtn.textContent = "Download";
+      });
+  } else {
+    // --- Standard Download Logic (PNG, SVG, JPEG, WEBP) ---
+    let downloadExtension = format;
+    // Ensure SVG download uses 'svg' type if QR instance is canvas
+    // Note: For SVG download, the QR code generation type should ideally be 'svg' for best quality.
+    // We might need to regenerate with type: 'svg' just for download if format is svg.
+    // For now, we'll stick with the current instance type.
+    if (format === "svg" && qrCodeInstance._options.type !== "svg") {
+      console.warn(
+        "Downloading canvas as SVG. For better quality, consider regenerating QR code as SVG type."
+      );
+      // Ideally, regenerate here: qrCodeInstance.update({ type: 'svg' }).then(...) then download
+    }
+
+    qrCodeInstance
+      .download({
+        name: filename,
+        extension: downloadExtension,
+      })
+      .then(() => {
+        console.log(`Download initiated as ${format}.`);
+      })
+      .catch((error) => {
+        console.error("Download failed:", error);
+        alert(`Failed to download QR code as ${format}.`);
+      })
+      .finally(() => {
+        // Re-enable button regardless of success/failure
+        downloadBtn.disabled = false;
+        downloadBtn.textContent = "Download";
+      });
+  }
 }
 
 // --- Event Listeners ---
