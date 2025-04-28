@@ -269,7 +269,7 @@ button:disabled {
 }
 
 .tab-button:hover {
-    color: #0056b3;
+    color: #0056b3; /* Ensure text color changes on hover for visibility */
 }
 
 .tab-button.active {
