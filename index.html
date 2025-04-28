@@ -31,7 +31,7 @@
                     <button class="tab-button" data-tab="style-tab">Style & Colors</button>
                     <button class="tab-button" data-tab="logo-tab">Logo</button>
                     <button class="tab-button" data-tab="advanced-tab">Advanced</button>
-                    <!-- Add Template Tab later -->
+                    <button class="tab-button" data-tab="templates-tab">Templates</button>
                 </div>
 
                 <!-- Tab Content -->
@@ -76,18 +76,121 @@
                                  </select>
                              </div>
                          </div>
-                         <h2 style="margin-top: 1.5rem;">Colors</h2> <!-- Subheading for colors -->
-                         <div class="grid-2-col">
+
+                         <hr class="section-divider"> <!-- Divider -->
+
+                         <h2>Colors & Gradients</h2>
+                         
+                         <!-- Foreground/Dots Color -->
+                         <div class="color-section">
                             <div class="input-group">
-                                <label for="fgColor">Foreground Color</label>
+                                <input type="checkbox" id="dotGradientEnable">
+                                <label for="dotGradientEnable" class="inline-label">Use Gradient for Dots</label>
+                            </div>
+                            <div class="input-group solid-color-option" id="dotSolidColorGroup">
+                                <label for="fgColor">Dot Color</label>
                                 <input type="color" id="fgColor" value="#000000">
                             </div>
+                            <div class="gradient-controls" id="dotGradientControls" style="display: none;">
+                                <label>Dot Gradient</label>
+                                <div class="input-group">
+                                    <label>Type:</label>
+                                    <input type="radio" name="dotGradientType" id="dotGradientLinear" value="linear" checked> <label for="dotGradientLinear" class="inline-label">Linear</label>
+                                    <input type="radio" name="dotGradientType" id="dotGradientRadial" value="radial"> <label for="dotGradientRadial" class="inline-label">Radial</label>
+                                </div>
+                                <div class="grid-2-col">
+                                    <div class="input-group">
+                                        <label for="dotGradientColor1">Color 1</label>
+                                        <input type="color" id="dotGradientColor1" value="#6a1a4c">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="dotGradientColor2">Color 2</label>
+                                        <input type="color" id="dotGradientColor2" value="#000000">
+                                    </div>
+                                </div>
+                                <div class="input-group slider-group">
+                                    <label for="dotGradientRotation">Rotation (<span id="dotGradientRotationValue">0</span>°)</label>
+                                    <input type="range" id="dotGradientRotation" min="0" max="360" step="1" value="0">
+                                </div>
+                            </div>
+                         </div>
+
+                         <hr class="section-divider">
+
+                         <!-- Background Color -->
+                         <div class="color-section">
                             <div class="input-group">
+                                <input type="checkbox" id="bgGradientEnable">
+                                <label for="bgGradientEnable" class="inline-label">Use Gradient for Background</label>
+                            </div>
+                            <div class="input-group solid-color-option" id="bgSolidColorGroup">
                                 <label for="bgColor">Background Color</label>
                                 <input type="color" id="bgColor" value="#FFFFFF">
                             </div>
-                        </div>
-                        <!-- Gradient controls will be added here later -->
+                             <div class="gradient-controls" id="bgGradientControls" style="display: none;">
+                                <label>Background Gradient</label>
+                                <div class="input-group">
+                                    <label>Type:</label>
+                                    <input type="radio" name="bgGradientType" id="bgGradientLinear" value="linear" checked> <label for="bgGradientLinear" class="inline-label">Linear</label>
+                                    <input type="radio" name="bgGradientType" id="bgGradientRadial" value="radial"> <label for="bgGradientRadial" class="inline-label">Radial</label>
+                                </div>
+                                <div class="grid-2-col">
+                                    <div class="input-group">
+                                        <label for="bgGradientColor1">Color 1</label>
+                                        <input type="color" id="bgGradientColor1" value="#FFFFFF">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="bgGradientColor2">Color 2</label>
+                                        <input type="color" id="bgGradientColor2" value="#ededed">
+                                    </div>
+                                </div>
+                                <div class="input-group slider-group">
+                                    <label for="bgGradientRotation">Rotation (<span id="bgGradientRotationValue">0</span>°)</label>
+                                    <input type="range" id="bgGradientRotation" min="0" max="360" step="1" value="0">
+                                </div>
+                            </div>
+                         </div>
+                         
+                         <hr class="section-divider">
+                         
+                          <!-- Corner Square Color -->
+                         <div class="color-section">
+                            <div class="input-group">
+                                <input type="checkbox" id="cornerSquareGradientEnable">
+                                <label for="cornerSquareGradientEnable" class="inline-label">Use Gradient for Corner Squares</label>
+                            </div>
+                             <div class="input-group solid-color-option" id="cornerSquareSolidColorGroup">
+                                <label for="cornerSquareColor">Corner Square Color</label> <!-- New ID -->
+                                <input type="color" id="cornerSquareColor" value="#000000"> <!-- New ID, default to black -->
+                            </div>
+                             <div class="gradient-controls" id="cornerSquareGradientControls" style="display: none;">
+                                <label>Corner Square Gradient</label>
+                                <div class="input-group">
+                                    <label>Type:</label>
+                                    <input type="radio" name="cornerSquareGradientType" id="cornerSquareGradientLinear" value="linear" checked> <label for="cornerSquareGradientLinear" class="inline-label">Linear</label>
+                                    <input type="radio" name="cornerSquareGradientType" id="cornerSquareGradientRadial" value="radial"> <label for="cornerSquareGradientRadial" class="inline-label">Radial</label>
+                                </div>
+                                <div class="grid-2-col">
+                                    <div class="input-group">
+                                        <label for="cornerSquareGradientColor1">Color 1</label>
+                                        <input type="color" id="cornerSquareGradientColor1" value="#555555">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="cornerSquareGradientColor2">Color 2</label>
+                                        <input type="color" id="cornerSquareGradientColor2" value="#000000">
+                                    </div>
+                                </div>
+                                <div class="input-group slider-group">
+                                    <label for="cornerSquareGradientRotation">Rotation (<span id="cornerSquareGradientRotationValue">0</span>°)</label>
+                                    <input type="range" id="cornerSquareGradientRotation" min="0" max="360" step="1" value="0">
+                                </div>
+                            </div>
+                         </div>
+                         
+                         <!-- Note: Corner Dot color/gradient often linked to Corner Square or Dots -->
+                         <!-- We can omit separate gradient controls for Corner Dots for simplicity -->
+                         <!-- Or add later if needed -->
+
                     </div>
                 </div>
 
@@ -138,6 +241,16 @@
                         <div class="input-group slider-group">
                             <label for="qrMargin">QR Margin (<span id="qrMarginValue">10</span> px)</label>
                             <input type="range" id="qrMargin" min="0" max="50" step="1" value="10">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Added Templates Tab Content -->
+                <div class="tab-content" id="templates-tab">
+                    <div class="options-section no-border">
+                        <h2>Select a Template</h2>
+                        <div class="template-gallery" id="templateGallery">
+                            <!-- Template previews will be generated here by script.js -->
                         </div>
                     </div>
                 </div>

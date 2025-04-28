@@ -408,4 +408,75 @@ button:disabled {
     font-size: 0.85rem;
     color: #495057;
     font-weight: 500;
-} 
+}
+
+/* --- Specific Input Styling --- */
+/* ... */
+
+/* Checkbox & Radio Buttons */
+.checkbox-group,
+.input-group input[type="radio"] + label {
+    display: inline-flex; /* Align checkbox/radio with label */
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+.inline-label {
+    margin-bottom: 0 !important; /* Override default label margin */
+    font-weight: normal;
+    cursor: pointer;
+}
+input[type="checkbox"],
+input[type="radio"] {
+    width: auto; /* Override default */
+    height: 1em;
+    width: 1em;
+    cursor: pointer;
+    accent-color: #007bff;
+    margin: 0;
+    vertical-align: middle;
+}
+
+/* --- Gradient Specific Controls --- */
+.section-divider {
+    border: none;
+    border-top: 1px solid #e9ecef;
+    margin: 2rem 0;
+}
+
+.color-section {
+    margin-bottom: 1.5rem;
+}
+
+.gradient-controls {
+    border: 1px dashed #ced4da;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+    background-color: #f8f9fa;
+}
+
+.gradient-controls > label {
+    /* Style for the main label like "Dot Gradient" */
+    font-weight: 500;
+    margin-bottom: 1rem;
+    display: block;
+    color: #343a40;
+}
+
+.gradient-controls .input-group label {
+    /* Style for labels inside gradient controls (Type, Color 1, etc.) */
+    font-size: 0.85rem;
+    color: #495057;
+}
+
+/* Style for radio button groups */
+.gradient-controls .input-group input[type="radio"] {
+    margin-right: 0.25rem; /* Space before label */
+}
+.gradient-controls .input-group label.inline-label {
+    margin-right: 1rem; /* Space between radio options */
+}
+
+/* Buttons */
+/* ... (rest of CSS) ... */ 

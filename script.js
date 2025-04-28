@@ -40,6 +40,49 @@ const errorCorrectionLevelSelect = document.getElementById(
 );
 const qrMarginSlider = document.getElementById("qrMargin");
 
+// Style & Color
+// Gradient - Dots
+const dotGradientEnableCheckbox = document.getElementById("dotGradientEnable");
+const dotGradientControlsDiv = document.getElementById("dotGradientControls");
+const dotSolidColorGroupDiv = document.getElementById("dotSolidColorGroup");
+const dotGradientTypeLinearRadio = document.getElementById("dotGradientLinear"); // Assuming Linear is default
+const dotGradientColor1Input = document.getElementById("dotGradientColor1");
+const dotGradientColor2Input = document.getElementById("dotGradientColor2");
+const dotGradientRotationSlider = document.getElementById(
+  "dotGradientRotation"
+);
+// Gradient - Background
+const bgGradientEnableCheckbox = document.getElementById("bgGradientEnable");
+const bgGradientControlsDiv = document.getElementById("bgGradientControls");
+const bgSolidColorGroupDiv = document.getElementById("bgSolidColorGroup");
+const bgGradientTypeLinearRadio = document.getElementById("bgGradientLinear");
+const bgGradientColor1Input = document.getElementById("bgGradientColor1");
+const bgGradientColor2Input = document.getElementById("bgGradientColor2");
+const bgGradientRotationSlider = document.getElementById("bgGradientRotation");
+// Gradient - Corner Squares
+const cornerSquareGradientEnableCheckbox = document.getElementById(
+  "cornerSquareGradientEnable"
+);
+const cornerSquareGradientControlsDiv = document.getElementById(
+  "cornerSquareGradientControls"
+);
+const cornerSquareSolidColorGroupDiv = document.getElementById(
+  "cornerSquareSolidColorGroup"
+);
+const cornerSquareColorInput = document.getElementById("cornerSquareColor"); // Solid color for corner squares
+const cornerSquareGradientTypeLinearRadio = document.getElementById(
+  "cornerSquareGradientLinear"
+);
+const cornerSquareGradientColor1Input = document.getElementById(
+  "cornerSquareGradientColor1"
+);
+const cornerSquareGradientColor2Input = document.getElementById(
+  "cornerSquareGradientColor2"
+);
+const cornerSquareGradientRotationSlider = document.getElementById(
+  "cornerSquareGradientRotation"
+);
+
 // --- Template Definitions ---
 const qrTemplates = [
   {
@@ -178,6 +221,109 @@ const qrTemplates = [
       backgroundOptions: { color: "#0a0a0a" }, // Near black background
     },
   },
+  // --- Adding Gradient Templates ---
+  {
+    name: "Ocean Breeze",
+    options: {
+      dotsOptions: {
+        type: "rounded",
+        gradient: {
+          type: "linear",
+          rotation: Math.PI / 4,
+          colorStops: [
+            { offset: 0, color: "#0d6efd" },
+            { offset: 1, color: "#71b1ff" },
+          ],
+        },
+      },
+      cornersSquareOptions: { type: "extra-rounded", color: "#0a58ca" }, // Solid dark blue corners
+      cornersDotOptions: { type: "dot", color: "#0a58ca" },
+      backgroundOptions: { color: "#FFFFFF" },
+    },
+  },
+  {
+    name: "Sunset Flare",
+    options: {
+      dotsOptions: { type: "dots", color: "#dc3545" }, // Solid red dots
+      cornersSquareOptions: {
+        type: "extra-rounded",
+        gradient: {
+          type: "linear",
+          rotation: Math.PI / 2,
+          colorStops: [
+            { offset: 0, color: "#fd7e14" },
+            { offset: 1, color: "#ffc107" },
+          ],
+        },
+      },
+      cornersDotOptions: { type: "dot", color: "#fd7e14" }, // Match gradient start color
+      backgroundOptions: { color: "#fff8e1" }, // Light yellow background
+    },
+  },
+  {
+    name: "Forest Canopy",
+    options: {
+      dotsOptions: { type: "classy-rounded", color: "#146c43" }, // Solid dark green
+      cornersSquareOptions: { type: "square", color: "#146c43" },
+      cornersDotOptions: { type: "square", color: "#146c43" },
+      backgroundOptions: {
+        gradient: {
+          type: "radial",
+          colorStops: [
+            { offset: 0, color: "#ffffff" },
+            { offset: 1, color: "#d1e7dd" },
+          ],
+        }, // Radial white to light green
+      },
+    },
+  },
+  {
+    name: "Royal Purple",
+    options: {
+      dotsOptions: {
+        type: "extra-rounded",
+        gradient: {
+          type: "linear",
+          rotation: 0,
+          colorStops: [
+            { offset: 0, color: "#6f42c1" },
+            { offset: 1, color: "#b38ff0" },
+          ],
+        },
+      },
+      cornersSquareOptions: {
+        type: "extra-rounded",
+        gradient: {
+          type: "linear",
+          rotation: 0,
+          colorStops: [
+            { offset: 0, color: "#5a349b" },
+            { offset: 1, color: "#9a73d7" },
+          ],
+        }, // Darker version of dot gradient
+      },
+      cornersDotOptions: { type: "dot", color: "#5a349b" }, // Match gradient start
+      backgroundOptions: { color: "#FFFFFF" },
+    },
+  },
+  {
+    name: "Aqua Radial",
+    options: {
+      dotsOptions: {
+        type: "dots",
+        gradient: {
+          type: "radial",
+          colorStops: [
+            { offset: 0, color: "#0dcaf0" },
+            { offset: 1, color: "#0b9ebd" },
+          ],
+        }, // Radial cyan
+      },
+      cornersSquareOptions: { type: "extra-rounded", color: "#088ba6" }, // Darker solid cyan corners
+      cornersDotOptions: { type: "dot", color: "#088ba6" },
+      backgroundOptions: { color: "#f0fcfd" }, // Very light cyan
+    },
+  },
 ];
 
 // --- Tab Switching Logic ---
@@ -226,6 +372,44 @@ function removeLogo() {
   generateQR(); // Regenerate without logo
 }
 
+// --- Helper: Toggle Gradient Controls Visibility ---
+function toggleGradientControls(checkbox, solidGroup, gradientGroup) {
+  if (!checkbox || !solidGroup || !gradientGroup) return;
+  if (checkbox.checked) {
+    solidGroup.style.display = "none";
+    gradientGroup.style.display = "block";
+  } else {
+    solidGroup.style.display = "block";
+    gradientGroup.style.display = "none";
+  }
+}
+
+// --- Helper: Get Gradient Options ---
+function getGradientOptions(
+  enableCheckbox,
+  typeLinearRadio,
+  color1Input,
+  color2Input,
+  rotationSlider
+) {
+  if (!enableCheckbox || !enableCheckbox.checked) {
+    return undefined; // Gradient not enabled
+  }
+  const type = typeLinearRadio && typeLinearRadio.checked ? "linear" : "radial";
+  const rotationRad = rotationSlider
+    ? (parseInt(rotationSlider.value, 10) * Math.PI) / 180
+    : 0;
+  const colorStops = [
+    { offset: 0, color: color1Input ? color1Input.value : "#000000" },
+    { offset: 1, color: color2Input ? color2Input.value : "#000000" },
+  ];
+  return {
+    type: type,
+    rotation: rotationRad,
+    colorStops: colorStops,
+  };
+}
+
 // --- QR Code Generation (using qr-code-styling) ---
 function generateQR() {
   // Read basic content
@@ -259,6 +443,50 @@ function generateQR() {
   const currentHideBackground = logoBackgroundCheckbox
     ? logoBackgroundCheckbox.checked
     : true;
+
+  // --- Read Colors & Gradients ---
+  // Dots
+  const dotGradient = getGradientOptions(
+    dotGradientEnableCheckbox,
+    dotGradientTypeLinearRadio,
+    dotGradientColor1Input,
+    dotGradientColor2Input,
+    dotGradientRotationSlider
+  );
+  const dotColor = dotGradient
+    ? undefined
+    : fgColorInput
+    ? fgColorInput.value
+    : "#000000";
+  // Background
+  const bgGradient = getGradientOptions(
+    bgGradientEnableCheckbox,
+    bgGradientTypeLinearRadio,
+    bgGradientColor1Input,
+    bgGradientColor2Input,
+    bgGradientRotationSlider
+  );
+  const bgSolidColor = bgGradient
+    ? undefined
+    : bgColorInput
+    ? bgColorInput.value
+    : "#FFFFFF";
+  // Corner Squares
+  const cornerSquareGradient = getGradientOptions(
+    cornerSquareGradientEnableCheckbox,
+    cornerSquareGradientTypeLinearRadio,
+    cornerSquareGradientColor1Input,
+    cornerSquareGradientColor2Input,
+    cornerSquareGradientRotationSlider
+  );
+  const cornerSquareColor = cornerSquareGradient
+    ? undefined
+    : cornerSquareColorInput
+    ? cornerSquareColorInput.value
+    : "#000000";
+  // Corner Dots (linking to corner square color/gradient for simplicity)
+  const cornerDotColor = cornerSquareColor; // Link solid colors
+  const cornerDotGradient = cornerSquareGradient; // Link gradients
 
   // Basic validation
   if (!text) {
@@ -295,11 +523,13 @@ function generateQR() {
       errorCorrectionLevel: errorCorrectionLevel, // Use read value
     },
     dotsOptions: {
-      color: fgColor,
+      color: dotColor,
+      gradient: dotGradient,
       type: currentDotStyle,
     },
     backgroundOptions: {
-      color: bgColor,
+      color: bgSolidColor,
+      gradient: bgGradient,
     },
     imageOptions: {
       hideBackgroundDots: currentHideBackground,
@@ -308,11 +538,13 @@ function generateQR() {
       crossOrigin: "anonymous",
     },
     cornersSquareOptions: {
-      color: fgColor,
+      color: cornerSquareColor,
+      gradient: cornerSquareGradient,
       type: currentCornerSquareStyle,
     },
     cornersDotOptions: {
-      color: fgColor,
+      color: cornerDotColor,
+      gradient: cornerDotGradient,
       type: currentCornerDotStyle,
     },
   };
@@ -458,20 +690,67 @@ if (removeLogoBtn) {
   console.warn("Remove logo button element not found.");
 }
 
-// Listener for live updates from ALL controls
+// Add listeners for gradient enable checkboxes
+dotGradientEnableCheckbox?.addEventListener("change", () => {
+  toggleGradientControls(
+    dotGradientEnableCheckbox,
+    dotSolidColorGroupDiv,
+    dotGradientControlsDiv
+  );
+  generateQR();
+});
+bgGradientEnableCheckbox?.addEventListener("change", () => {
+  toggleGradientControls(
+    bgGradientEnableCheckbox,
+    bgSolidColorGroupDiv,
+    bgGradientControlsDiv
+  );
+  generateQR();
+});
+cornerSquareGradientEnableCheckbox?.addEventListener("change", () => {
+  toggleGradientControls(
+    cornerSquareGradientEnableCheckbox,
+    cornerSquareSolidColorGroupDiv,
+    cornerSquareGradientControlsDiv
+  );
+  generateQR();
+});
+
+// Listener for live updates from ALL controls (including new gradient controls)
 const allControls = [
   textInput,
   sizeInput,
+  // Solid Colors (now potentially hidden)
   fgColorInput,
   bgColorInput,
+  cornerSquareColorInput,
+  // Styles
   dotStyleSelect,
   cornerSquareStyleSelect,
   cornerDotStyleSelect,
+  // Logo
   logoSizeSlider,
   logoMarginSlider,
   logoBackgroundCheckbox,
+  // Advanced
   errorCorrectionLevelSelect,
   qrMarginSlider,
+  // Gradients
+  dotGradientEnableCheckbox,
+  bgGradientEnableCheckbox,
+  cornerSquareGradientEnableCheckbox,
+  dotGradientTypeLinearRadio /* Add other radio buttons if needed */,
+  dotGradientColor1Input,
+  dotGradientColor2Input,
+  dotGradientRotationSlider,
+  bgGradientTypeLinearRadio,
+  bgGradientColor1Input,
+  bgGradientColor2Input,
+  bgGradientRotationSlider,
+  cornerSquareGradientTypeLinearRadio,
+  cornerSquareGradientColor1Input,
+  cornerSquareGradientColor2Input,
+  cornerSquareGradientRotationSlider,
 ];
 
 allControls.forEach((control) => {
@@ -492,11 +771,14 @@ allControls.forEach((control) => {
   }
 });
 
-// Update slider value displays (including new QR Margin slider)
+// Update slider value displays (including new gradient rotation sliders)
 const sliderValueDisplays = {
   logoSize: "logoSizeValue",
   logoMargin: "logoMarginValue",
   qrMargin: "qrMarginValue",
+  dotGradientRotation: "dotGradientRotationValue",
+  bgGradientRotation: "bgGradientRotationValue",
+  cornerSquareGradientRotation: "cornerSquareGradientRotationValue",
 };
 Object.entries(sliderValueDisplays).forEach(([sliderId, displayId]) => {
   const slider = document.getElementById(sliderId);
@@ -548,34 +830,123 @@ function applyTemplate(templateIndex) {
   if (templateIndex < 0 || templateIndex >= qrTemplates.length) return;
 
   const template = qrTemplates[templateIndex];
+  const options = template.options; // Shortcut to options
   console.log("Applying template:", template.name);
 
-  // Update UI controls to match template settings
+  // --- Update UI controls ---
+
   // Style & Color Tab
   if (dotStyleSelect)
-    dotStyleSelect.value = template.options.dotsOptions?.type || "square";
-  if (fgColorInput)
-    fgColorInput.value = template.options.dotsOptions?.color || "#000000";
+    dotStyleSelect.value = options.dotsOptions?.type || "square";
   if (cornerSquareStyleSelect)
     cornerSquareStyleSelect.value =
-      template.options.cornersSquareOptions?.type || "square";
+      options.cornersSquareOptions?.type || "square";
   if (cornerDotStyleSelect)
-    cornerDotStyleSelect.value =
-      template.options.cornersDotOptions?.type || "square";
-  // Assuming corner colors match foreground for simplicity in these basic templates
-  if (bgColorInput)
-    bgColorInput.value = template.options.backgroundOptions?.color || "#FFFFFF";
+    cornerDotStyleSelect.value = options.cornersDotOptions?.type || "square";
 
-  // TODO: Update gradient controls if/when they are added
+  // Dots Color/Gradient
+  const dotGradient = options.dotsOptions?.gradient;
+  if (dotGradientEnableCheckbox)
+    dotGradientEnableCheckbox.checked = !!dotGradient;
+  toggleGradientControls(
+    dotGradientEnableCheckbox,
+    dotSolidColorGroupDiv,
+    dotGradientControlsDiv
+  ); // Update visibility
+  if (dotGradient) {
+    if (dotGradientTypeLinearRadio)
+      dotGradientTypeLinearRadio.checked = dotGradient.type === "linear";
+    // TODO: Handle radial radio button if added
+    if (dotGradientColor1Input)
+      dotGradientColor1Input.value =
+        dotGradient.colorStops?.[0]?.color || "#000000";
+    if (dotGradientColor2Input)
+      dotGradientColor2Input.value =
+        dotGradient.colorStops?.[1]?.color || "#000000";
+    if (dotGradientRotationSlider)
+      dotGradientRotationSlider.value = Math.round(
+        ((dotGradient.rotation || 0) * 180) / Math.PI
+      );
+  } else {
+    if (fgColorInput)
+      fgColorInput.value = options.dotsOptions?.color || "#000000";
+  }
 
-  // Note: We are NOT updating logo, size, margin, ECL from basic templates
-  // Those remain user-configurable after applying a style template.
+  // Background Color/Gradient
+  const bgGradient = options.backgroundOptions?.gradient;
+  if (bgGradientEnableCheckbox) bgGradientEnableCheckbox.checked = !!bgGradient;
+  toggleGradientControls(
+    bgGradientEnableCheckbox,
+    bgSolidColorGroupDiv,
+    bgGradientControlsDiv
+  ); // Update visibility
+  if (bgGradient) {
+    if (bgGradientTypeLinearRadio)
+      bgGradientTypeLinearRadio.checked = bgGradient.type === "linear";
+    // TODO: Handle radial radio button
+    if (bgGradientColor1Input)
+      bgGradientColor1Input.value =
+        bgGradient.colorStops?.[0]?.color || "#FFFFFF";
+    if (bgGradientColor2Input)
+      bgGradientColor2Input.value =
+        bgGradient.colorStops?.[1]?.color || "#FFFFFF";
+    if (bgGradientRotationSlider)
+      bgGradientRotationSlider.value = Math.round(
+        ((bgGradient.rotation || 0) * 180) / Math.PI
+      );
+  } else {
+    if (bgColorInput)
+      bgColorInput.value = options.backgroundOptions?.color || "#FFFFFF";
+  }
+
+  // Corner Square Color/Gradient
+  const csGradient = options.cornersSquareOptions?.gradient;
+  if (cornerSquareGradientEnableCheckbox)
+    cornerSquareGradientEnableCheckbox.checked = !!csGradient;
+  toggleGradientControls(
+    cornerSquareGradientEnableCheckbox,
+    cornerSquareSolidColorGroupDiv,
+    cornerSquareGradientControlsDiv
+  );
+  if (csGradient) {
+    if (cornerSquareGradientTypeLinearRadio)
+      cornerSquareGradientTypeLinearRadio.checked =
+        csGradient.type === "linear";
+    // TODO: Handle radial radio button
+    if (cornerSquareGradientColor1Input)
+      cornerSquareGradientColor1Input.value =
+        csGradient.colorStops?.[0]?.color || "#000000";
+    if (cornerSquareGradientColor2Input)
+      cornerSquareGradientColor2Input.value =
+        csGradient.colorStops?.[1]?.color || "#000000";
+    if (cornerSquareGradientRotationSlider)
+      cornerSquareGradientRotationSlider.value = Math.round(
+        ((csGradient.rotation || 0) * 180) / Math.PI
+      );
+  } else {
+    if (cornerSquareColorInput)
+      cornerSquareColorInput.value =
+        options.cornersSquareOptions?.color || "#000000";
+  }
+
+  // Update slider display values manually after setting slider values
+  updateAllSliderDisplays();
+
+  // Note: We are NOT updating logo, size, margin, ECL from templates
 
   // Trigger QR regeneration
   generateQR();
+}
 
-  // Optional: Switch back to the Style tab after applying
-  // activateTab('style-tab');
+// Helper to update all slider displays
+function updateAllSliderDisplays() {
+  Object.entries(sliderValueDisplays).forEach(([sliderId, displayId]) => {
+    const slider = document.getElementById(sliderId);
+    const display = document.getElementById(displayId);
+    if (slider && display) {
+      display.textContent = slider.value;
+    }
+  });
 }
 
 // Add listener for template gallery clicks (using event delegation)
@@ -602,11 +973,21 @@ window.addEventListener("load", () => {
   if (textInput.value) generateQR();
   if (removeLogoBtn) removeLogoBtn.style.display = "none";
   // Update initial slider values
-  Object.entries(sliderValueDisplays).forEach(([sliderId, displayId]) => {
-    const slider = document.getElementById(sliderId);
-    const display = document.getElementById(displayId);
-    if (slider && display) {
-      display.textContent = slider.value;
-    }
-  });
+  updateAllSliderDisplays(); // Call explicitly here too for safety
+  // Set initial visibility of gradient controls
+  toggleGradientControls(
+    dotGradientEnableCheckbox,
+    dotSolidColorGroupDiv,
+    dotGradientControlsDiv
+  );
+  toggleGradientControls(
+    bgGradientEnableCheckbox,
+    bgSolidColorGroupDiv,
+    bgGradientControlsDiv
+  );
+  toggleGradientControls(
+    cornerSquareGradientEnableCheckbox,
+    cornerSquareSolidColorGroupDiv,
+    cornerSquareGradientControlsDiv
+  );
 });
