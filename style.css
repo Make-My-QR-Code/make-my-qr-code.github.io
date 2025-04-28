@@ -14,13 +14,15 @@ body {
 /* Container Styling */
 .container {
     background: #ffffff; /* White background */
-    padding: 2.5rem 3rem;
+    padding: 2rem;
     border-radius: 16px; /* More rounded corners */
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Softer shadow */
     width: 100%;
-    max-width: 550px;
+    max-width: 900px; /* Increased max-width for two columns */
     box-sizing: border-box;
-    transition: all 0.3s ease; /* Smooth transition */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInSlideUp 0.6s 0.2s ease forwards;
 }
 
 /* Header */
@@ -47,9 +49,10 @@ label {
 
 input[type="text"],
 input[type="number"],
-input[type="color"] {
+input[type="color"],
+select {
     width: 100%;
-    padding: 0.85rem 1rem;
+    padding: 0.8rem 1rem;
     border: 1px solid #ced4da; /* Lighter border */
     border-radius: 8px;
     font-size: 1rem;
@@ -58,15 +61,28 @@ input[type="color"] {
     background-color: #f8f9fa; /* Subtle background for inputs */
 }
 
-input[type="color"] {
-    padding: 0.5rem; /* Adjust padding for color inputs */
-    height: 48px; /* Match height roughly */
+select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.65em auto;
+    padding-right: 2.5rem; /* Make space for arrow */
     cursor: pointer;
+}
+
+input[type="color"] {
+    padding: 0.4rem; /* Adjust padding */
+    height: 45px; /* Match height roughly */
+    cursor: pointer;
+    width: calc(100% - 10px); /* Adjust width slightly for better appearance */
+    vertical-align: middle;
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus,
-input[type="color"]:focus {
+input[type="color"]:focus,
+select:focus {
     border-color: #007bff; /* Bootstrap blue */
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Focus ring */
     outline: none;
@@ -89,15 +105,20 @@ input[type="color"]:focus {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    margin-top: 2rem; /* More space before buttons */
-    margin-bottom: 1.5rem;
+    margin-top: 0; /* Reset top margin */
+    margin-bottom: 0; /* Reset bottom margin */
+}
+
+.button-group.single-col {
+    grid-template-columns: 1fr; /* For stacked buttons */
+    margin-top: 1.5rem;
 }
 
 button {
     background-color: #007bff; /* Bootstrap primary blue */
     color: white;
     border: none;
-    padding: 0.85rem 1.5rem;
+    padding: 0.9rem 1.5rem; /* Slightly larger padding */
     border-radius: 8px;
     font-size: 1rem;
     font-weight: 500;
@@ -121,18 +142,31 @@ button:disabled {
     transform: none;
 }
 
+/* Style for secondary buttons like 'Remove Logo' */
+.button-secondary {
+    background-color: #6c757d; /* Gray */
+    font-size: 0.9em;
+    padding: 0.6rem 1rem;
+}
+
+.button-secondary:hover {
+    background-color: #5a6268;
+}
+
 /* QR Code Preview Area */
 .preview {
-    margin-top: 2rem;
+    margin-top: 0;
     text-align: center;
     background-color: #f8f9fa; /* Light bg for contrast */
     padding: 1.5rem;
     border-radius: 8px;
-    min-height: 100px; /* Ensure some space even when empty */
+    min-height: 300px; /* Adjust based on default size */
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px dashed #ced4da; /* Dashed border */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 #qrPreview {
@@ -154,39 +188,51 @@ button:disabled {
 }
 
 /* Responsive Design */
+@media (max-width: 900px) {
+    .main-layout {
+        grid-template-columns: 1fr; /* Stack columns */
+        gap: 2rem;
+    }
+    .preview-panel {
+        position: static; /* Remove sticky positioning */
+    }
+    .container {
+        max-width: 600px;
+        padding: 1.5rem;
+    }
+}
+
 @media (max-width: 600px) {
     body {
         padding: 20px 10px;
     }
     .container {
-        padding: 2rem 1.5rem;
+        padding: 1.5rem 1rem;
     }
     h1 {
         font-size: 1.75rem;
     }
-    .color-inputs, .button-group {
-        grid-template-columns: 1fr; /* Stack elements on smaller screens */
+    .grid-2-col {
+        grid-template-columns: 1fr; /* Stack grid items */
         gap: 1rem;
     }
     input[type="text"],
     input[type="number"],
     input[type="color"],
+    select,
     button {
         font-size: 0.95rem;
         padding: 0.8rem;
     }
     input[type="color"] {
-        height: 45px;
+        height: 42px;
+    }
+    .file-label {
+        padding: 0.7rem 1rem;
     }
 }
 
 /* Add subtle entrance animation */
-.container {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInSlideUp 0.6s 0.2s ease forwards;
-}
-
 @keyframes fadeInSlideUp {
     to {
         opacity: 1;

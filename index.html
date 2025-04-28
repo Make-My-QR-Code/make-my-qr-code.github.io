@@ -10,7 +10,8 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6148876069173529"
      crossorigin="anonymous"></script>
     <!-- External QR Code Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script> -->
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <!-- Link to external stylesheet -->
     <link rel="stylesheet" href="style.css">
     <!-- Favicon (optional but good practice) -->
@@ -19,45 +20,110 @@
 <body>
     <div class="container">
         <h1>Free QR Code Generator</h1>
-        
-        <div class="input-group">
-            <label for="text">Text or URL</label>
-            <input type="text" id="text" placeholder="Enter text or URL" value="https://example.com">
-        </div>
-        
-        <div class="input-group">
-            <label for="size">Size (px) <small>(50-2000)</small></label>
-            <input type="number" id="size" value="300" min="50" max="2000">
-        </div>
-        
-        <div class="color-inputs">
-            <div class="color-input">
-                <label for="bgColor">Background Color</label>
-                <input type="color" id="bgColor" value="#FFFFFF">
-            </div>
-            
-            <div class="color-input">
-                <label for="fgColor">QR Code Color</label>
-                <input type="color" id="fgColor" value="#000000">
-            </div>
-        </div>
-        
-        <div class="button-group">
-            <!-- Added ID to generate button -->
-            <button id="generateBtn">Generate QR Code</button>
-            <button id="downloadBtn" disabled>Download PNG</button>
-        </div>
-        
-        <div class="preview">
-            <div id="qrPreview"></div>
-        </div>
 
-        <!-- Placeholder for Ads or Donation Button -->
-        <div id="monetization-area" style="margin-top: 2rem; text-align: center; font-size: 0.9rem; color: #6c757d;">
-            <!-- Ad code or donation button goes here -->
-            
-        </div>
+        <div class="main-layout">
+            <div class="options-panel">
 
+                <!-- Content Section -->
+                <div class="options-section">
+                    <h2>Content</h2>
+                    <div class="input-group">
+                        <label for="text">Text or URL</label>
+                        <input type="text" id="text" placeholder="Enter text or URL" value="https://make-my-qr-code.github.io/">
+                    </div>
+                </div>
+
+                <!-- Styling Section -->
+                <div class="options-section">
+                    <h2>Styling</h2>
+                    <div class="input-group">
+                        <label for="size">Size (px) <small>(50-2000)</small></label>
+                        <input type="number" id="size" value="300" min="50" max="2000">
+                    </div>
+                    <div class="grid-2-col">
+                        <div class="input-group">
+                            <label for="fgColor">Foreground Color</label>
+                            <input type="color" id="fgColor" value="#000000">
+                        </div>
+                        <div class="input-group">
+                            <label for="bgColor">Background Color</label>
+                            <input type="color" id="bgColor" value="#FFFFFF">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="dotStyle">Dot Style</label>
+                        <select id="dotStyle">
+                            <option value="square">Square</option>
+                            <option value="dots">Dots</option>
+                            <option value="rounded">Rounded</option>
+                            <option value="extra-rounded">Extra Rounded</option>
+                            <option value="classy">Classy</option>
+                            <option value="classy-rounded">Classy Rounded</option>
+                        </select>
+                    </div>
+                     <div class="grid-2-col">
+                        <div class="input-group">
+                            <label for="cornerSquareStyle">Corner Square Style</label>
+                            <select id="cornerSquareStyle">
+                                <option value="square">Square</option>
+                                <option value="dot">Dot</option>
+                                <option value="extra-rounded">Extra Rounded</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="cornerDotStyle">Corner Dot Style</label>
+                            <select id="cornerDotStyle">
+                                 <option value="square">Square</option>
+                                 <option value="dot">Dot</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logo Section -->
+                <div class="options-section">
+                    <h2>Logo</h2>
+                    <div class="input-group">
+                        <label for="logoUpload" class="file-label">Upload Logo (Optional)</label>
+                        <input type="file" id="logoUpload" accept="image/png, image/jpeg, image/svg+xml">
+                    </div>
+                    <div class="input-group slider-group">
+                        <label for="logoSize">Logo Size (<span id="logoSizeValue">0.4</span>)</label>
+                        <input type="range" id="logoSize" min="0.1" max="0.6" step="0.05" value="0.4">
+                    </div>
+                    <div class="input-group slider-group">
+                        <label for="logoMargin">Logo Margin (<span id="logoMarginValue">4</span> px)</label>
+                        <input type="range" id="logoMargin" min="0" max="20" step="1" value="4">
+                    </div>
+                    <div class="input-group checkbox-group">
+                        <input type="checkbox" id="logoBackground" checked>
+                        <label for="logoBackground">Hide QR dots behind logo</label>
+                    </div>
+                    <!-- Add Remove Logo Button -->
+                    <div class="input-group">
+                         <button id="removeLogoBtn" class="button-secondary">Remove Logo</button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                 <div class="button-group single-col">
+                    <button id="generateBtn">Generate QR Code</button>
+                    <button id="downloadBtn" disabled>Download PNG</button>
+                </div>
+
+            </div>
+
+            <div class="preview-panel">
+                <h2>Preview</h2>
+                <div class="preview">
+                    <div id="qrPreview"></div>
+                </div>
+                 <!-- Placeholder for Ads or Donation Button -->
+                <div id="monetization-area" style="margin-top: 1.5rem; text-align: center; min-height: 50px;">
+                    <!-- Ad code or donation button goes here -->
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Link to external JavaScript file -->

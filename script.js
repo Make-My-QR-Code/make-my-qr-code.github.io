@@ -1,15 +1,61 @@
-let qrcode = null; // Variable to hold the QRCode instance
+// Global variable to hold the QRCodeStyling instance
+let qrCodeInstance = null;
+let uploadedLogo = null; // To store the uploaded logo file data
 
-// Get DOM elements
+// --- DOM Elements ---
+// Basic Inputs
 const textInput = document.getElementById("text");
 const sizeInput = document.getElementById("size");
+// Color Inputs (Keep for now, might integrate into styling options later)
 const bgColorInput = document.getElementById("bgColor");
 const fgColorInput = document.getElementById("fgColor");
-const generateBtn = document.getElementById("generateBtn"); // Added ID in HTML
+
+// New Styling Inputs (Placeholders - need corresponding HTML elements)
+const dotStyleSelect = document.getElementById("dotStyle"); // e.g., <select id="dotStyle">...
+const cornerSquareStyleSelect = document.getElementById("cornerSquareStyle");
+const cornerDotStyleSelect = document.getElementById("cornerDotStyle");
+const logoUploadInput = document.getElementById("logoUpload"); // <input type="file" id="logoUpload">
+const logoSizeSlider = document.getElementById("logoSize"); // <input type="range" id="logoSize">
+const logoMarginSlider = document.getElementById("logoMargin");
+const logoBackgroundCheckbox = document.getElementById("logoBackground"); // Hide dots behind logo
+
+// Buttons & Preview
+const generateBtn = document.getElementById("generateBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 const previewDiv = document.getElementById("qrPreview");
 
-// --- QR Code Generation ---
+// --- Logo Handling ---
+const removeLogoBtn = document.getElementById("removeLogoBtn");
+let logoPreview = document.getElementById("logoPreview"); // Assuming you add <img id="logoPreview" style="max-width: 50px; ..."> near the upload button
+
+function handleLogoUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      uploadedLogo = e.target.result; // Store base64 data URL
+      if (logoPreview) logoPreview.src = uploadedLogo; // Show preview
+      console.log("Logo uploaded.");
+      generateQR(); // Trigger regeneration AFTER logo is loaded
+    };
+    reader.readAsDataURL(file);
+    if (removeLogoBtn) removeLogoBtn.style.display = "inline-block"; // Show remove button
+  } else {
+    // Handle case where file selection is cancelled
+    removeLogo();
+  }
+}
+
+function removeLogo() {
+  uploadedLogo = null;
+  if (logoUploadInput) logoUploadInput.value = null; // Clear the file input
+  if (logoPreview) logoPreview.src = ""; // Clear preview
+  if (removeLogoBtn) removeLogoBtn.style.display = "none"; // Hide remove button
+  console.log("Logo removed.");
+  generateQR(); // Regenerate without logo
+}
+
+// --- QR Code Generation (using qr-code-styling) ---
 function generateQR() {
   const text = textInput.value.trim();
   const size = parseInt(sizeInput.value);
@@ -28,121 +74,203 @@ function generateQR() {
     return;
   }
 
+  // --- Read current style values ---
+  const currentDotStyle = dotStyleSelect ? dotStyleSelect.value : "square";
+  const currentCornerSquareStyle = cornerSquareStyleSelect
+    ? cornerSquareStyleSelect.value
+    : "square";
+  const currentCornerDotStyle = cornerDotStyleSelect
+    ? cornerDotStyleSelect.value
+    : "square";
+  const currentLogoSize = logoSizeSlider
+    ? parseFloat(logoSizeSlider.value)
+    : 0.4;
+  const currentLogoMargin = logoMarginSlider
+    ? parseInt(logoMarginSlider.value)
+    : 4;
+  const currentHideBackground = logoBackgroundCheckbox
+    ? logoBackgroundCheckbox.checked
+    : true;
+
   // Clear previous QR code
   previewDiv.innerHTML = "";
-  previewDiv.style.border = "1px dashed #ced4da"; // Reset border
   downloadBtn.disabled = true;
-
-  // Disable button during generation
   generateBtn.disabled = true;
   generateBtn.textContent = "Generating...";
 
-  // Use setTimeout to allow UI update before potentially blocking QR code generation
+  // --- Prepare options for qr-code-styling ---
+  const options = {
+    width: size,
+    height: size,
+    type: "canvas", // or 'svg'
+    data: text,
+    image: uploadedLogo || "", // Use uploaded logo if available
+    margin: 10, // Default margin, can be made configurable
+    qrOptions: {
+      errorCorrectionLevel: "H", // High correction level recommended with logos
+    },
+    dotsOptions: {
+      color: fgColor,
+      type: currentDotStyle, // Use read value
+    },
+    backgroundOptions: {
+      color: bgColor,
+    },
+    imageOptions: {
+      hideBackgroundDots: currentHideBackground, // Use read value
+      imageSize: currentLogoSize, // Use read value
+      margin: currentLogoMargin, // Use read value
+      crossOrigin: "anonymous", // Needed for base64 image data
+    },
+    cornersSquareOptions: {
+      color: fgColor,
+      type: currentCornerSquareStyle, // Use read value
+    },
+    cornersDotOptions: {
+      color: fgColor,
+      type: currentCornerDotStyle, // Use read value
+    },
+  };
+
+  // Use setTimeout to allow UI update
   setTimeout(() => {
     try {
-      // Generate new QR code using the qrcode.js library
-      qrcode = new QRCode(previewDiv, {
-        text: text,
-        width: size,
-        height: size,
-        colorDark: fgColor,
-        colorLight: bgColor,
-        correctLevel: QRCode.CorrectLevel.H, // High error correction
-      });
+      // Create or update the QR code instance
+      if (!qrCodeInstance) {
+        qrCodeInstance = new QRCodeStyling(options);
+        qrCodeInstance.append(previewDiv);
+      } else {
+        qrCodeInstance.update(options);
+      }
 
-      // Visually confirm generation
-      previewDiv.style.border = "none"; // Remove border after generation
-
-      // Enable download button
       downloadBtn.disabled = false;
+      previewDiv.style.border = "none"; // Remove placeholder border
     } catch (error) {
       console.error("QR Code generation failed:", error);
-      alert(
-        "Failed to generate QR code. Please check your input or try again."
-      );
-      previewDiv.innerHTML = "Error generating QR code."; // Show error in preview
+      alert("Failed to generate QR code. Check console for details.");
+      previewDiv.innerHTML = "Error generating QR code.";
+      previewDiv.style.border = "1px dashed #ced4da"; // Restore border on error
     } finally {
-      // Re-enable button
       generateBtn.disabled = false;
       generateBtn.textContent = "Generate QR Code";
     }
-  }, 50); // Small delay
+  }, 50);
 }
 
-// --- QR Code Download ---
+// --- QR Code Download (using qr-code-styling) ---
 function downloadQR() {
-  if (!qrcode || !previewDiv.querySelector("canvas")) {
-    alert("Please generate a QR code first");
+  if (!qrCodeInstance) {
+    alert("Please generate a QR code first.");
     return;
   }
 
-  const originalCanvas = previewDiv.querySelector("canvas");
-  const padding = 20; // Pixels of padding around the QR code
-  const bgColor = bgColorInput.value; // Use selected background color for padding
-
-  // Create a new canvas with padding
-  const paddedCanvas = document.createElement("canvas");
-  const paddedSize = originalCanvas.width + padding * 2;
-  paddedCanvas.width = paddedSize;
-  paddedCanvas.height = paddedSize;
-  const ctx = paddedCanvas.getContext("2d");
-
-  // Fill the background (padding area)
-  ctx.fillStyle = bgColor;
-  ctx.fillRect(0, 0, paddedSize, paddedSize);
-
-  // Draw the original QR code canvas onto the center of the new canvas
-  ctx.drawImage(originalCanvas, padding, padding);
-
-  // Prepare filename (using padded size)
   const text =
     textInput.value
       .trim()
       .substring(0, 30)
       .replace(/[^a-zA-Z0-9]/g, "_") || "qrcode";
-  const filename = `${text}_${paddedSize}x${paddedSize}.png`;
+  // Get size from the instance options or input - instance might be more reliable
+  const size =
+    qrCodeInstance._options.width || parseInt(sizeInput.value) || 300;
+  const filename = `${text}_${size}x${size}`;
 
-  try {
-    // Convert the *padded* canvas to blob
-    paddedCanvas.toBlob((blob) => {
-      if (blob) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a); // Append to body to ensure visibility
-        a.click();
-        document.body.removeChild(a); // Clean up
-        URL.revokeObjectURL(url); // Release object URL memory
-      } else {
-        throw new Error("Padded Canvas toBlob returned null");
-      }
-    }, "image/png");
-  } catch (error) {
-    console.error("Download failed:", error);
-    alert(
-      "Failed to download QR code. Your browser might not support this feature or there was an error."
-    );
-  }
+  // Use the library's download method
+  qrCodeInstance
+    .download({
+      name: filename,
+      extension: "png", // Can also be 'jpeg', 'webp', or 'svg' if type is svg
+    })
+    .then(() => {
+      console.log("Download initiated.");
+    })
+    .catch((error) => {
+      console.error("Download failed:", error);
+      alert("Failed to download QR code.");
+    });
+
+  // Note: The previous padding logic is removed as the library might handle margins differently,
+  // and adding padding *after* styling (like logo) might be complex.
+  // We rely on the library's 'margin' option within qrOptions or imageOptions for spacing.
 }
 
 // --- Event Listeners ---
 
-// Add listener to the Generate button
 generateBtn.addEventListener("click", generateQR);
-
-// Add listener to the Download button
 downloadBtn.addEventListener("click", downloadQR);
 
-// Optional: Generate QR on Enter key press in the text input
-textInput.addEventListener("keypress", function (event) {
-  if (event.key === "Enter") {
-    event.preventDefault(); // Prevent form submission if inside a form
-    generateQR();
+// Listener for logo upload
+if (logoUploadInput) {
+  logoUploadInput.addEventListener("change", handleLogoUpload);
+} else {
+  console.warn("Logo upload input element not found.");
+}
+
+// Listener for Remove Logo button
+if (removeLogoBtn) {
+  removeLogoBtn.addEventListener("click", removeLogo);
+  removeLogoBtn.style.display = "none"; // Initially hidden
+} else {
+  console.warn("Remove logo button element not found.");
+}
+
+// Listener for live updates from style controls
+const styleControls = [
+  sizeInput,
+  fgColorInput,
+  bgColorInput,
+  dotStyleSelect,
+  cornerSquareStyleSelect,
+  cornerDotStyleSelect,
+  logoSizeSlider,
+  logoMarginSlider,
+  logoBackgroundCheckbox,
+];
+
+styleControls.forEach((control) => {
+  if (control) {
+    const eventType =
+      control.type === "checkbox" || control.type === "select-one"
+        ? "change"
+        : "input";
+    // Add small debounce to prevent excessive regeneration on sliders
+    let debounceTimeout;
+    control.addEventListener(eventType, () => {
+      clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(generateQR, 150); // Adjust delay as needed
+    });
+  } else {
+    // Log if any expected control is missing (check IDs in HTML)
+    // console.warn("A style control element was not found.");
   }
 });
 
-// Optional: Generate QR on Enter key press in the size input
+// Update slider value displays
+if (logoSizeSlider) {
+  const valueDisplay = document.getElementById("logoSizeValue");
+  if (valueDisplay) {
+    logoSizeSlider.addEventListener(
+      "input",
+      () => (valueDisplay.textContent = logoSizeSlider.value)
+    );
+  }
+}
+if (logoMarginSlider) {
+  const valueDisplay = document.getElementById("logoMarginValue");
+  if (valueDisplay) {
+    logoMarginSlider.addEventListener(
+      "input",
+      () => (valueDisplay.textContent = logoMarginSlider.value)
+    );
+  }
+}
+
+// Optional: Generate QR on Enter key press
+textInput.addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    generateQR();
+  }
+});
 sizeInput.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -150,12 +278,10 @@ sizeInput.addEventListener("keypress", function (event) {
   }
 });
 
-// Set initial state
+// --- Initial State ---
 downloadBtn.disabled = true;
-
-// Trigger generation on load if there's default text
-// window.addEventListener('load', () => {
-//     if (textInput.value) {
-//         generateQR();
-//     }
-// });
+// Optionally generate a default QR code on load if needed
+window.addEventListener("load", () => {
+  if (textInput.value) generateQR();
+  if (removeLogoBtn) removeLogoBtn.style.display = "none"; // Ensure remove button is hidden on load
+});
