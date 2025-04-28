@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Free QR Code Generator</h1>
+        <h1>Free Online QR Code Generator</h1>
 
         <div class="main-layout">
             <div class="options-panel">
@@ -36,226 +36,241 @@
 
                 <!-- Tab Content -->
                 <div class="tab-content active" id="content-tab">
-                    <div class="options-section no-border">
+                     <div class="options-section no-border">
                         <h2>Content</h2>
                         <div class="input-group">
-                            <label for="text">Text or URL</label>
-                            <input type="text" id="text" placeholder="Enter text or URL" value="https://make-my-qr-code.github.io/">
+                           <label for="text">Text or URL</label>
+                           <input type="text" id="text" placeholder="Enter text or URL" value="https://make-my-qr-code.github.io/">
                         </div>
                     </div>
                 </div>
 
                 <div class="tab-content" id="style-tab">
-                    <div class="options-section no-border">
-                        <h2>Styling</h2>
-                         <div class="input-group">
-                             <label for="dotStyle">Dot Style</label>
-                             <select id="dotStyle">
-                                 <option value="square">Square</option>
-                                 <option value="dots">Dots</option>
-                                 <option value="rounded">Rounded</option>
-                                 <option value="extra-rounded">Extra Rounded</option>
-                                 <option value="classy">Classy</option>
-                                 <option value="classy-rounded">Classy Rounded</option>
-                             </select>
-                         </div>
-                         <div class="grid-2-col">
-                             <div class="input-group">
-                                 <label for="cornerSquareStyle">Corner Square Style</label>
-                                 <select id="cornerSquareStyle">
-                                     <option value="square">Square</option>
-                                     <option value="dot">Dot</option>
-                                     <option value="extra-rounded">Extra Rounded</option>
-                                 </select>
-                             </div>
-                             <div class="input-group">
-                                 <label for="cornerDotStyle">Corner Dot Style</label>
-                                 <select id="cornerDotStyle">
-                                      <option value="square">Square</option>
-                                      <option value="dot">Dot</option>
-                                 </select>
-                             </div>
-                         </div>
-
-                         <hr class="section-divider"> <!-- Divider -->
-
-                         <h2>Colors & Gradients</h2>
-                         
-                         <!-- Foreground/Dots Color -->
-                         <div class="color-section">
-                            <div class="input-group">
-                                <input type="checkbox" id="dotGradientEnable">
-                                <label for="dotGradientEnable" class="inline-label">Use Gradient for Dots</label>
-                            </div>
-                            <div class="input-group solid-color-option" id="dotSolidColorGroup">
-                                <label for="fgColor">Dot Color</label>
-                                <input type="color" id="fgColor" value="#000000">
-                            </div>
-                            <div class="gradient-controls" id="dotGradientControls" style="display: none;">
-                                <label>Dot Gradient</label>
+                     <div class="options-section no-border accordion-container">
+                        
+                        <!-- Accordion Item 1: Basic Styles -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">Dot & Corner Styles</button>
+                            <div class="accordion-content" style="display: none;"> <!-- Initially hidden -->
                                 <div class="input-group">
-                                    <label>Type:</label>
-                                    <input type="radio" name="dotGradientType" id="dotGradientLinear" value="linear" checked> <label for="dotGradientLinear" class="inline-label">Linear</label>
-                                    <input type="radio" name="dotGradientType" id="dotGradientRadial" value="radial"> <label for="dotGradientRadial" class="inline-label">Radial</label>
+                                    <label for="dotStyle">Dot Style</label>
+                                    <select id="dotStyle">
+                                        <option value="square">Square</option>
+                                        <option value="dots">Dots</option>
+                                        <option value="rounded">Rounded</option>
+                                        <option value="extra-rounded">Extra Rounded</option>
+                                        <option value="classy">Classy</option>
+                                        <option value="classy-rounded">Classy Rounded</option>
+                                    </select>
                                 </div>
                                 <div class="grid-2-col">
-                                    <div class="input-group">
-                                        <label for="dotGradientColor1">Color 1</label>
-                                        <input type="color" id="dotGradientColor1" value="#6a1a4c">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="dotGradientColor2">Color 2</label>
-                                        <input type="color" id="dotGradientColor2" value="#000000">
-                                    </div>
-                                </div>
-                                <div class="input-group slider-group">
-                                    <label for="dotGradientRotation">Rotation (<span id="dotGradientRotationValue">0</span>°)</label>
-                                    <input type="range" id="dotGradientRotation" min="0" max="360" step="1" value="0">
-                                </div>
-                            </div>
-                         </div>
+                                     <div class="input-group">
+                                        <label for="cornerSquareStyle">Corner Square Style</label>
+                                        <select id="cornerSquareStyle">
+                                            <option value="square">Square</option>
+                                            <option value="dot">Dot</option>
+                                            <option value="extra-rounded">Extra Rounded</option>
+                                        </select>
+                                     </div>
+                                     <div class="input-group">
+                                        <label for="cornerDotStyle">Corner Dot Style</label>
+                                        <select id="cornerDotStyle">
+                                             <option value="square">Square</option>
+                                             <option value="dot">Dot</option>
+                                        </select>
+                                     </div>
+                                 </div>
+                            </div> <!-- End Accordion Content -->
+                        </div> <!-- End Accordion Item 1 -->
 
-                         <hr class="section-divider">
+                         <!-- Accordion Item 2: Colors & Gradients -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">Colors & Gradients</button>
+                            <div class="accordion-content" style="display: none;"> <!-- Initially hidden -->
+                                 <!-- Foreground/Dots Color Section -->
+                                <div class="color-section sub-section">
+                                    <h3 class="sub-heading">Dots</h3>
+                                    <div class="input-group">
+                                        <input type="checkbox" id="dotGradientEnable"> <label for="dotGradientEnable" class="inline-label">Use Gradient</label>
+                                    </div>
+                                    <div class="input-group solid-color-option" id="dotSolidColorGroup">
+                                        <label for="fgColor">Color</label>
+                                        <input type="color" id="fgColor" value="#000000">
+                                    </div>
+                                    <div class="gradient-controls" id="dotGradientControls" style="display: none;">
+                                        <label class="sub-sub-heading">Dot Gradient</label>
+                                        <div class="input-group">
+                                            <label>Type:</label>
+                                            <input type="radio" name="dotGradientType" id="dotGradientLinear" value="linear" checked> <label for="dotGradientLinear" class="inline-label">Linear</label>
+                                            <input type="radio" name="dotGradientType" id="dotGradientRadial" value="radial"> <label for="dotGradientRadial" class="inline-label">Radial</label>
+                                        </div>
+                                        <div class="grid-2-col">
+                                             <div class="input-group">
+                                                 <label for="dotGradientColor1">Color 1</label>
+                                                 <input type="color" id="dotGradientColor1" value="#6a1a4c">
+                                             </div>
+                                             <div class="input-group">
+                                                 <label for="dotGradientColor2">Color 2</label>
+                                                 <input type="color" id="dotGradientColor2" value="#000000">
+                                             </div>
+                                        </div>
+                                        <div class="input-group slider-group">
+                                             <label for="dotGradientRotation">Rotation (<span id="dotGradientRotationValue">0</span>°)</label>
+                                             <input type="range" id="dotGradientRotation" min="0" max="360" step="1" value="0">
+                                        </div>
+                                    </div>
+                                 </div>
+                                 <hr class="sub-divider">
+                                 <!-- Background Color Section -->
+                                <div class="color-section sub-section">
+                                     <h3 class="sub-heading">Background</h3>
+                                     <div class="input-group">
+                                        <input type="checkbox" id="bgGradientEnable"> <label for="bgGradientEnable" class="inline-label">Use Gradient</label>
+                                    </div>
+                                     <div class="input-group solid-color-option" id="bgSolidColorGroup">
+                                        <label for="bgColor">Color</label>
+                                        <input type="color" id="bgColor" value="#FFFFFF">
+                                    </div>
+                                     <div class="gradient-controls" id="bgGradientControls" style="display: none;">
+                                          <label class="sub-sub-heading">Background Gradient</label>
+                                          <div class="input-group">
+                                              <label>Type:</label>
+                                              <input type="radio" name="bgGradientType" id="bgGradientLinear" value="linear" checked> <label for="bgGradientLinear" class="inline-label">Linear</label>
+                                              <input type="radio" name="bgGradientType" id="bgGradientRadial" value="radial"> <label for="bgGradientRadial" class="inline-label">Radial</label>
+                                          </div>
+                                          <div class="grid-2-col">
+                                               <div class="input-group">
+                                                   <label for="bgGradientColor1">Color 1</label>
+                                                   <input type="color" id="bgGradientColor1" value="#FFFFFF">
+                                               </div>
+                                               <div class="input-group">
+                                                   <label for="bgGradientColor2">Color 2</label>
+                                                   <input type="color" id="bgGradientColor2" value="#ededed">
+                                               </div>
+                                          </div>
+                                          <div class="input-group slider-group">
+                                               <label for="bgGradientRotation">Rotation (<span id="bgGradientRotationValue">0</span>°)</label>
+                                               <input type="range" id="bgGradientRotation" min="0" max="360" step="1" value="0">
+                                          </div>
+                                     </div>
+                                 </div>
+                                 <hr class="sub-divider">
+                                 <!-- Corner Square Color Section -->
+                                <div class="color-section sub-section">
+                                     <h3 class="sub-heading">Corner Squares</h3>
+                                     <div class="input-group">
+                                        <input type="checkbox" id="cornerSquareGradientEnable"> <label for="cornerSquareGradientEnable" class="inline-label">Use Gradient</label>
+                                    </div>
+                                     <div class="input-group solid-color-option" id="cornerSquareSolidColorGroup">
+                                        <label for="cornerSquareColor">Color</label>
+                                        <input type="color" id="cornerSquareColor" value="#000000">
+                                    </div>
+                                     <div class="gradient-controls" id="cornerSquareGradientControls" style="display: none;">
+                                          <label class="sub-sub-heading">Corner Square Gradient</label>
+                                          <div class="input-group">
+                                              <label>Type:</label>
+                                              <input type="radio" name="cornerSquareGradientType" id="cornerSquareGradientLinear" value="linear" checked> <label for="cornerSquareGradientLinear" class="inline-label">Linear</label>
+                                              <input type="radio" name="cornerSquareGradientType" id="cornerSquareGradientRadial" value="radial"> <label for="cornerSquareGradientRadial" class="inline-label">Radial</label>
+                                          </div>
+                                          <div class="grid-2-col">
+                                               <div class="input-group">
+                                                   <label for="cornerSquareGradientColor1">Color 1</label>
+                                                   <input type="color" id="cornerSquareGradientColor1" value="#555555">
+                                               </div>
+                                               <div class="input-group">
+                                                   <label for="cornerSquareGradientColor2">Color 2</label>
+                                                   <input type="color" id="cornerSquareGradientColor2" value="#000000">
+                                               </div>
+                                          </div>
+                                          <div class="input-group slider-group">
+                                               <label for="cornerSquareGradientRotation">Rotation (<span id="cornerSquareGradientRotationValue">0</span>°)</label>
+                                               <input type="range" id="cornerSquareGradientRotation" min="0" max="360" step="1" value="0">
+                                          </div>
+                                     </div>
+                                 </div>
+                            </div> <!-- End Accordion Content -->
+                        </div> <!-- End Accordion Item 2 -->
 
-                         <!-- Background Color -->
-                         <div class="color-section">
-                            <div class="input-group">
-                                <input type="checkbox" id="bgGradientEnable">
-                                <label for="bgGradientEnable" class="inline-label">Use Gradient for Background</label>
-                            </div>
-                            <div class="input-group solid-color-option" id="bgSolidColorGroup">
-                                <label for="bgColor">Background Color</label>
-                                <input type="color" id="bgColor" value="#FFFFFF">
-                            </div>
-                             <div class="gradient-controls" id="bgGradientControls" style="display: none;">
-                                <label>Background Gradient</label>
-                                <div class="input-group">
-                                    <label>Type:</label>
-                                    <input type="radio" name="bgGradientType" id="bgGradientLinear" value="linear" checked> <label for="bgGradientLinear" class="inline-label">Linear</label>
-                                    <input type="radio" name="bgGradientType" id="bgGradientRadial" value="radial"> <label for="bgGradientRadial" class="inline-label">Radial</label>
-                                </div>
-                                <div class="grid-2-col">
-                                    <div class="input-group">
-                                        <label for="bgGradientColor1">Color 1</label>
-                                        <input type="color" id="bgGradientColor1" value="#FFFFFF">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="bgGradientColor2">Color 2</label>
-                                        <input type="color" id="bgGradientColor2" value="#ededed">
-                                    </div>
-                                </div>
-                                <div class="input-group slider-group">
-                                    <label for="bgGradientRotation">Rotation (<span id="bgGradientRotationValue">0</span>°)</label>
-                                    <input type="range" id="bgGradientRotation" min="0" max="360" step="1" value="0">
-                                </div>
-                            </div>
-                         </div>
-                         
-                         <hr class="section-divider">
-                         
-                          <!-- Corner Square Color -->
-                         <div class="color-section">
-                            <div class="input-group">
-                                <input type="checkbox" id="cornerSquareGradientEnable">
-                                <label for="cornerSquareGradientEnable" class="inline-label">Use Gradient for Corner Squares</label>
-                            </div>
-                             <div class="input-group solid-color-option" id="cornerSquareSolidColorGroup">
-                                <label for="cornerSquareColor">Corner Square Color</label> <!-- New ID -->
-                                <input type="color" id="cornerSquareColor" value="#000000"> <!-- New ID, default to black -->
-                            </div>
-                             <div class="gradient-controls" id="cornerSquareGradientControls" style="display: none;">
-                                <label>Corner Square Gradient</label>
-                                <div class="input-group">
-                                    <label>Type:</label>
-                                    <input type="radio" name="cornerSquareGradientType" id="cornerSquareGradientLinear" value="linear" checked> <label for="cornerSquareGradientLinear" class="inline-label">Linear</label>
-                                    <input type="radio" name="cornerSquareGradientType" id="cornerSquareGradientRadial" value="radial"> <label for="cornerSquareGradientRadial" class="inline-label">Radial</label>
-                                </div>
-                                <div class="grid-2-col">
-                                    <div class="input-group">
-                                        <label for="cornerSquareGradientColor1">Color 1</label>
-                                        <input type="color" id="cornerSquareGradientColor1" value="#555555">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="cornerSquareGradientColor2">Color 2</label>
-                                        <input type="color" id="cornerSquareGradientColor2" value="#000000">
-                                    </div>
-                                </div>
-                                <div class="input-group slider-group">
-                                    <label for="cornerSquareGradientRotation">Rotation (<span id="cornerSquareGradientRotationValue">0</span>°)</label>
-                                    <input type="range" id="cornerSquareGradientRotation" min="0" max="360" step="1" value="0">
-                                </div>
-                            </div>
-                         </div>
-                         
-                         <!-- Note: Corner Dot color/gradient often linked to Corner Square or Dots -->
-                         <!-- We can omit separate gradient controls for Corner Dots for simplicity -->
-                         <!-- Or add later if needed -->
+                    </div> <!-- End options-section -->
+                </div> <!-- End style-tab -->
 
-                    </div>
-                </div>
-
-                <div class="tab-content" id="logo-tab">
-                     <div class="options-section no-border">
-                         <h2>Logo</h2>
-                         <div class="input-group">
-                            <label for="logoUpload" class="file-label">Upload Logo (Optional)</label>
-                            <input type="file" id="logoUpload" accept="image/png, image/jpeg, image/svg+xml">
-                            <!-- Optional: Add img tag for preview -->
-                            <img id="logoPreview" alt="Logo preview" style="max-width: 50px; max-height: 50px; margin-top: 10px; display: none; vertical-align: middle;">
-                        </div>
-                         <div class="input-group">
-                              <button id="removeLogoBtn" class="button-secondary" style="display: none;">Remove Logo</button> <!-- Initially hidden -->
-                         </div>
-                         <div class="input-group slider-group">
-                             <label for="logoSize">Logo Size (<span id="logoSizeValue">0.4</span>)</label>
-                             <input type="range" id="logoSize" min="0.1" max="0.6" step="0.05" value="0.4">
-                         </div>
-                         <div class="input-group slider-group">
-                             <label for="logoMargin">Logo Margin (<span id="logoMarginValue">4</span> px)</label>
-                             <input type="range" id="logoMargin" min="0" max="20" step="1" value="4">
-                         </div>
-                         <div class="input-group checkbox-group">
-                             <input type="checkbox" id="logoBackground" checked>
-                             <label for="logoBackground">Hide QR dots behind logo</label>
-                         </div>
-                     </div>
-                </div>
+                 <div class="tab-content" id="logo-tab">
+                     <div class="options-section no-border accordion-container">
+                         <!-- Accordion Item: Logo Upload & Settings -->
+                         <div class="accordion-item">
+                             <button class="accordion-header">Logo Settings</button>
+                             <div class="accordion-content" style="display: none;"> <!-- Initially hidden -->
+                                 <div class="input-group">
+                                    <label for="logoUpload" class="file-label">Upload Logo (Optional)</label>
+                                    <input type="file" id="logoUpload" accept="image/png, image/jpeg, image/svg+xml">
+                                    <img id="logoPreview" alt="Logo preview" style="max-width: 50px; max-height: 50px; margin-top: 10px; display: none; vertical-align: middle;">
+                                </div>
+                                 <div class="input-group">
+                                      <button id="removeLogoBtn" class="button-secondary" style="display: none;">Remove Logo</button>
+                                 </div>
+                                 <hr class="sub-divider"> <!-- Optional separator -->
+                                 <div class="input-group slider-group">
+                                     <label for="logoSize">Logo Size (<span id="logoSizeValue">0.4</span>)</label>
+                                     <input type="range" id="logoSize" min="0.1" max="0.6" step="0.05" value="0.4">
+                                 </div>
+                                 <div class="input-group slider-group">
+                                     <label for="logoMargin">Logo Margin (<span id="logoMarginValue">4</span> px)</label>
+                                     <input type="range" id="logoMargin" min="0" max="20" step="1" value="4">
+                                 </div>
+                                 <div class="input-group checkbox-group">
+                                     <input type="checkbox" id="logoBackground" checked>
+                                     <label for="logoBackground">Hide QR dots behind logo</label>
+                                 </div>
+                             </div> <!-- End Accordion Content -->
+                         </div> <!-- End Accordion Item -->
+                     </div> <!-- End options-section -->
+                 </div> <!-- End logo-tab -->
 
                 <div class="tab-content" id="advanced-tab">
-                    <div class="options-section no-border">
-                        <h2>Advanced Options</h2>
-                        <div class="input-group">
-                            <label for="size">QR Code Size (px) <small>(50-2000)</small></label>
-                            <input type="number" id="size" value="300" min="50" max="2000">
-                        </div>
-                        <!-- Placeholder for ECL and Margin controls -->
-                         <div class="input-group">
-                            <label for="errorCorrectionLevel">Error Correction</label>
-                            <select id="errorCorrectionLevel">
-                                <option value="L">Low (L)</option>
-                                <option value="M">Medium (M)</option>
-                                <option value="Q">Quartile (Q)</option>
-                                <option value="H" selected>High (H)</option>
-                            </select>
-                        </div>
-                        <div class="input-group slider-group">
-                            <label for="qrMargin">QR Margin (<span id="qrMarginValue">10</span> px)</label>
-                            <input type="range" id="qrMargin" min="0" max="50" step="1" value="10">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Added Templates Tab Content -->
-                <div class="tab-content" id="templates-tab">
-                    <div class="options-section no-border">
-                        <h2>Select a Template</h2>
-                        <div class="template-gallery" id="templateGallery">
+                    <div class="options-section no-border accordion-container">
+                         <!-- Accordion Item: Output Settings -->
+                         <div class="accordion-item">
+                            <button class="accordion-header">Output Settings</button>
+                             <div class="accordion-content" style="display: none;"> <!-- Initially hidden -->
+                                 <div class="input-group">
+                                    <label for="size">QR Code Size (px) <small>(50-2000)</small></label>
+                                    <input type="number" id="size" value="300" min="50" max="2000">
+                                </div>
+                                 <div class="input-group slider-group">
+                                    <label for="qrMargin">QR Margin (<span id="qrMarginValue">10</span> px)</label>
+                                    <input type="range" id="qrMargin" min="0" max="50" step="1" value="10">
+                                </div>
+                             </div> <!-- End Accordion Content -->
+                         </div> <!-- End Accordion Item 1 -->
+                         <!-- Accordion Item: QR Code Internals -->
+                         <div class="accordion-item">
+                             <button class="accordion-header">QR Code Internals</button>
+                             <div class="accordion-content" style="display: none;"> <!-- Initially hidden -->
+                                 <div class="input-group">
+                                    <label for="errorCorrectionLevel">Error Correction</label>
+                                    <select id="errorCorrectionLevel">
+                                        <option value="L">Low (L)</option>
+                                        <option value="M">Medium (M)</option>
+                                        <option value="Q">Quartile (Q)</option>
+                                        <option value="H" selected>High (H)</option>
+                                    </select>
+                                    <p class="help-text">Higher levels improve robustness but increase density.</p>
+                                </div>
+                             </div> <!-- End Accordion Content -->
+                         </div> <!-- End Accordion Item 2 -->
+                    </div> <!-- End options-section -->
+                </div> <!-- End advanced-tab -->
+
+                 <div class="tab-content" id="templates-tab">
+                     <div class="options-section no-border">
+                         <h2>Select a Template</h2>
+                         <div class="template-gallery" id="templateGallery">
                             <!-- Template previews will be generated here by script.js -->
                         </div>
                     </div>
                 </div>
 
-            </div>
+            </div> <!-- End options-panel -->
 
             <div class="preview-panel">
                 <h2>Preview</h2>

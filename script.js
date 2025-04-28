@@ -963,6 +963,34 @@ if (templateGallery) {
   });
 }
 
+// --- Accordion Logic ---
+const accordionHeaders = document.querySelectorAll(".accordion-header");
+
+accordionHeaders.forEach((header) => {
+  header.addEventListener("click", () => {
+    const content = header.nextElementSibling;
+    const item = header.parentElement;
+
+    // Optional: Close other open accordions within the same container
+    // const container = item.closest('.accordion-container');
+    // if (container) {
+    //     container.querySelectorAll('.accordion-item').forEach(otherItem => {
+    //         if (otherItem !== item && otherItem.querySelector('.accordion-header.active')) {
+    //             otherItem.querySelector('.accordion-header').classList.remove('active');
+    //             otherItem.querySelector('.accordion-content').style.display = 'none';
+    //         }
+    //     });
+    // }
+
+    header.classList.toggle("active");
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+});
+
 // --- Initial State ---
 downloadBtn.disabled = true;
 // Activate the first tab on load
@@ -990,4 +1018,19 @@ window.addEventListener("load", () => {
     cornerSquareSolidColorGroupDiv,
     cornerSquareGradientControlsDiv
   );
+
+  // Optional: Open the first accordion item in each active tab initially
+  document
+    .querySelectorAll(".tab-content.active .accordion-item")
+    .forEach((item, index) => {
+      if (index === 0) {
+        // Open only the first one
+        const header = item.querySelector(".accordion-header");
+        const content = item.querySelector(".accordion-content");
+        if (header && content) {
+          header.classList.add("active");
+          content.style.display = "block";
+        }
+      }
+    });
 });

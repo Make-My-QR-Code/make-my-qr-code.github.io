@@ -479,4 +479,110 @@ input[type="radio"] {
 }
 
 /* Buttons */
+/* ... (rest of CSS) ... */
+
+/* --- Accordion Styling --- */
+.accordion-container {
+    /* Container for accordion items within a tab */
+}
+
+.accordion-item {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.accordion-item:last-child {
+    border-bottom: none;
+}
+
+.accordion-header {
+    width: 100%;
+    background-color: #f8f9fa; /* Light background for header */
+    border: none;
+    padding: 1rem 1.2rem;
+    text-align: left;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #343a40;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative; /* For pseudo-element arrow */
+    border-top: 1px solid #e9ecef; /* Separator line */
+}
+
+.accordion-item:first-child .accordion-header {
+     border-top: none; /* No top border for the very first item */
+     border-top-left-radius: 8px; /* Round corners if needed */
+     border-top-right-radius: 8px;
+}
+
+.accordion-header:hover {
+    background-color: #e9ecef;
+}
+
+/* Arrow Indicator */
+.accordion-header::after {
+    content: '+'; /* Plus sign for collapsed */
+    font-size: 1.4rem;
+    color: #6c757d;
+    position: absolute;
+    right: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.2s ease;
+}
+
+.accordion-header.active::after {
+    content: '−'; /* Minus sign for expanded */
+    transform: translateY(-50%); /* Keep vertical alignment */
+}
+
+.accordion-content {
+    padding: 0 1.2rem 1.5rem 1.2rem; /* Padding for content */
+    background-color: #ffffff;
+    border-top: 1px solid #e9ecef; /* Line between header and content */
+    /* display: none; is set inline initially or by JS */
+    overflow: hidden; /* Needed for smooth transition if animating later */
+}
+
+.accordion-content .sub-section {
+     margin-top: 1.5rem;
+     padding-top: 1.5rem;
+     border-top: 1px dashed #ced4da;
+}
+.accordion-content .sub-section:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+.sub-heading {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 1rem;
+    margin-top: 0;
+}
+
+.sub-sub-heading {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #6c757d;
+    margin-bottom: 0.8rem;
+    display: block;
+}
+
+.help-text {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+}
+
+/* Ensure sticky preview works well with potential scrolling options */
+.options-panel {
+    /* Optional: Add max-height and overflow-y if options panel gets too tall */
+    /* max-height: calc(100vh - 100px); */ /* Example: Adjust calculation based on header/footer */
+    /* overflow-y: auto; */
+}
+
 /* ... (rest of CSS) ... */ 
