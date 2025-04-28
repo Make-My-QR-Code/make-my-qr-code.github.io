@@ -1,0 +1,193 @@
+/* Basic Reset & Font */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+    background-color: #f8f9fa; /* Light gray background */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to top */
+    min-height: 100vh;
+    color: #343a40; /* Darker text color */
+}
+
+/* Container Styling */
+.container {
+    background: #ffffff; /* White background */
+    padding: 2.5rem 3rem;
+    border-radius: 16px; /* More rounded corners */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    width: 100%;
+    max-width: 550px;
+    box-sizing: border-box;
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+/* Header */
+h1 {
+    color: #212529; /* Very dark gray */
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem; /* Slightly larger */
+    font-weight: 600;
+}
+
+/* Input Groups */
+.input-group, .color-inputs {
+    margin-bottom: 1.75rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.6rem;
+    color: #495057; /* Medium gray */
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="color"] {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid #ced4da; /* Lighter border */
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+    background-color: #f8f9fa; /* Subtle background for inputs */
+}
+
+input[type="color"] {
+    padding: 0.5rem; /* Adjust padding for color inputs */
+    height: 48px; /* Match height roughly */
+    cursor: pointer;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="color"]:focus {
+    border-color: #007bff; /* Bootstrap blue */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Focus ring */
+    outline: none;
+    background-color: #fff;
+}
+
+/* Color Inputs Layout */
+.color-inputs {
+    display: grid; /* Use grid for better alignment */
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.color-input {
+    /* No flex needed with grid */
+}
+
+/* Button Group */
+.button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem; /* More space before buttons */
+    margin-bottom: 1.5rem;
+}
+
+button {
+    background-color: #007bff; /* Bootstrap primary blue */
+    color: white;
+    border: none;
+    padding: 0.85rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-align: center;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-1px); /* Slight lift */
+}
+
+button:active {
+    transform: translateY(0px); /* Press down effect */
+}
+
+button:disabled {
+    background-color: #adb5bd; /* Gray for disabled */
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* QR Code Preview Area */
+.preview {
+    margin-top: 2rem;
+    text-align: center;
+    background-color: #f8f9fa; /* Light bg for contrast */
+    padding: 1.5rem;
+    border-radius: 8px;
+    min-height: 100px; /* Ensure some space even when empty */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed #ced4da; /* Dashed border */
+}
+
+#qrPreview {
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+    line-height: 0; /* Remove extra space below canvas/img */
+}
+
+#qrPreview canvas,
+#qrPreview img {
+    display: block; /* Ensure block display */
+    margin: 0 auto; /* Center */
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px; /* Slight rounding */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    body {
+        padding: 20px 10px;
+    }
+    .container {
+        padding: 2rem 1.5rem;
+    }
+    h1 {
+        font-size: 1.75rem;
+    }
+    .color-inputs, .button-group {
+        grid-template-columns: 1fr; /* Stack elements on smaller screens */
+        gap: 1rem;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="color"],
+    button {
+        font-size: 0.95rem;
+        padding: 0.8rem;
+    }
+    input[type="color"] {
+        height: 45px;
+    }
+}
+
+/* Add subtle entrance animation */
+.container {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInSlideUp 0.6s 0.2s ease forwards;
+}
+
+@keyframes fadeInSlideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} 

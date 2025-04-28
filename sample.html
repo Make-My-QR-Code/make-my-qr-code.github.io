@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <!-- External QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Link to external stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Favicon (optional but good practice) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔳</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <h1>QR Code Generator</h1>
+        
+        <div class="input-group">
+            <label for="text">Text or URL</label>
+            <input type="text" id="text" placeholder="Enter text or URL" value="https://example.com">
+        </div>
+        
+        <div class="input-group">
+            <label for="size">Size (px) <small>(50-2000)</small></label>
+            <input type="number" id="size" value="300" min="50" max="2000">
+        </div>
+        
+        <div class="color-inputs">
+            <div class="color-input">
+                <label for="bgColor">Background Color</label>
+                <input type="color" id="bgColor" value="#FFFFFF">
+            </div>
+            
+            <div class="color-input">
+                <label for="fgColor">QR Code Color</label>
+                <input type="color" id="fgColor" value="#000000">
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <!-- Added ID to generate button -->
+            <button id="generateBtn">Generate QR Code</button>
+            <button id="downloadBtn" disabled>Download PNG</button>
+        </div>
+        
+        <div class="preview">
+            <div id="qrPreview"></div>
+        </div>
+
+        <!-- Placeholder for Ads or Donation Button -->
+        <div id="monetization-area" style="margin-top: 2rem; text-align: center; font-size: 0.9rem; color: #6c757d;">
+            <!-- Ad code or donation button goes here -->
+            <p>Future ad space or support link.</p> 
+        </div>
+
+    </div>
+
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
