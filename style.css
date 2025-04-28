@@ -149,6 +149,8 @@ button:disabled {
     max-width: 100%;
     height: auto;
     border-radius: 4px; /* Slight rounding */
+    border: 1px solid #e0e0e0; /* Add a light grey border directly to the canvas/img */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Optional: add a very subtle shadow */
 }
 
 /* Responsive Design */

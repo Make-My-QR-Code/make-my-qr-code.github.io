@@ -76,17 +76,35 @@ function downloadQR() {
     return;
   }
 
-  const canvas = previewDiv.querySelector("canvas");
+  const originalCanvas = previewDiv.querySelector("canvas");
+  const padding = 20; // Pixels of padding around the QR code
+  const bgColor = bgColorInput.value; // Use selected background color for padding
+
+  // Create a new canvas with padding
+  const paddedCanvas = document.createElement("canvas");
+  const paddedSize = originalCanvas.width + padding * 2;
+  paddedCanvas.width = paddedSize;
+  paddedCanvas.height = paddedSize;
+  const ctx = paddedCanvas.getContext("2d");
+
+  // Fill the background (padding area)
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(0, 0, paddedSize, paddedSize);
+
+  // Draw the original QR code canvas onto the center of the new canvas
+  ctx.drawImage(originalCanvas, padding, padding);
+
+  // Prepare filename (using padded size)
   const text =
     textInput.value
       .trim()
       .substring(0, 30)
       .replace(/[^a-zA-Z0-9]/g, "_") || "qrcode";
-  const filename = `${text}_${canvas.width}x${canvas.height}.png`;
+  const filename = `${text}_${paddedSize}x${paddedSize}.png`;
 
   try {
-    // Convert canvas to blob
-    canvas.toBlob((blob) => {
+    // Convert the *padded* canvas to blob
+    paddedCanvas.toBlob((blob) => {
       if (blob) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -97,7 +115,7 @@ function downloadQR() {
         document.body.removeChild(a); // Clean up
         URL.revokeObjectURL(url); // Release object URL memory
       } else {
-        throw new Error("Canvas toBlob returned null");
+        throw new Error("Padded Canvas toBlob returned null");
       }
     }, "image/png");
   } catch (error) {
