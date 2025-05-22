@@ -21,7 +21,69 @@
 </head>
 <body>
     <div class="container">
+        <nav class="main-nav">
+            <a href="index.html" class="nav-logo">
+                <span>🔳</span>
+                QR Generator
+            </a>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="about.html">About</a>
+                <!-- <a href="blog.html">Blog</a>
+                <a href="faq.html">FAQ</a>
+                <a href="contact.html">Contact</a> -->
+            </div>
+        </nav>
+
         <h1>Free Online QR Code Generator</h1>
+
+        <!-- New Content Section -->
+        <div class="content-section">
+            <h2>Create Professional QR Codes in Seconds</h2>
+            <p>Welcome to our free QR code generator! Create beautiful, customizable QR codes for your business, marketing materials, or personal use. Our tool offers advanced features like logo integration, custom colors, and multiple style options.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Easy to Use</h3>
+                    <p>Generate QR codes in seconds with our intuitive interface. No technical knowledge required.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Highly Customizable</h3>
+                    <p>Choose from multiple styles, colors, and add your logo to make your QR code stand out.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Multiple Formats</h3>
+                    <p>Download your QR code in various formats including PNG, SVG, JPEG, WEBP, and PDF.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Free to Use</h3>
+                    <p>No hidden costs or watermarks. Generate unlimited QR codes for free.</p>
+                </div>
+            </div>
+
+            <div class="use-cases">
+                <h3>Common Use Cases</h3>
+                <ul>
+                    <li>Business cards and marketing materials</li>
+                    <li>Product packaging and labels</li>
+                    <li>Event tickets and invitations</li>
+                    <li>Restaurant menus and contact information</li>
+                    <li>Social media profiles and website links</li>
+                    <li>Wi-Fi network sharing</li>
+                </ul>
+            </div>
+
+            <div class="how-to-use">
+                <h3>How to Use</h3>
+                <ol>
+                    <li>Enter your text or URL in the content field</li>
+                    <li>Customize the appearance using our style options</li>
+                    <li>Add your logo (optional)</li>
+                    <li>Download in your preferred format</li>
+                </ol>
+            </div>
+        </div>
 
         <div class="main-layout">
             <div class="options-panel">
@@ -297,9 +359,45 @@
                 </div>
             </div>
         </div>
+
+        <!-- New Footer Section -->
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About QR Codes</h4>
+                    <p>QR (Quick Response) codes are two-dimensional barcodes that can store various types of information. They were invented in 1994 by Denso Wave, a Japanese automotive company.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Best Practices</h4>
+                    <ul>
+                        <li>Ensure sufficient contrast between QR code and background</li>
+                        <li>Leave adequate quiet zone around the QR code</li>
+                        <li>Test your QR code before distribution</li>
+                        <li>Keep URLs short for better scanning</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="/about">About Us</a></li>
+                        <!-- <li><a href="/blog">Blog</a></li>
+                        <li><a href="/faq">FAQ</a></li>
+                        <li><a href="/contact">Contact</a></li> -->
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 QR Code Generator. All rights reserved.</p>
+            </div>
+        </footer>
     </div>
 
     <!-- Link to external JavaScript file -->
     <script src="script.js"></script>
+    <script>
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+        document.querySelector('.nav-links').classList.toggle('active');
+    });
+    </script>
 </body>
 </html>

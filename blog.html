@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - QR Code Generator</title>
+    <meta name="description" content="Read our latest articles about QR codes, digital marketing, and technology trends.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔳</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <nav class="main-nav">
+            <a href="index.html" class="nav-logo">
+                <span>🔳</span>
+                QR Generator
+            </a>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="blog.html" class="active">Blog</a>
+                <a href="faq.html">FAQ</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+
+        <div class="page-content">
+            <h1>Blog</h1>
+            
+            <div class="blog-section">
+                <div class="blog-categories">
+                    <button class="category-btn active">All</button>
+                    <button class="category-btn">QR Code Tips</button>
+                    <button class="category-btn">Marketing</button>
+                    <button class="category-btn">Technology</button>
+                </div>
+
+                <div class="blog-grid">
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <img src="https://via.placeholder.com/400x250" alt="QR Code Marketing">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">March 15, 2024</span>
+                                <span class="blog-category">Marketing</span>
+                            </div>
+                            <h2>10 Creative Ways to Use QR Codes in Marketing</h2>
+                            <p>Discover innovative ways to incorporate QR codes into your marketing strategy and boost engagement.</p>
+                            <a href="#" class="read-more">Read More →</a>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <img src="https://via.placeholder.com/400x250" alt="QR Code Design">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">March 10, 2024</span>
+                                <span class="blog-category">Design</span>
+                            </div>
+                            <h2>Designing Effective QR Codes: Best Practices</h2>
+                            <p>Learn the essential design principles for creating QR codes that are both functional and visually appealing.</p>
+                            <a href="#" class="read-more">Read More →</a>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <img src="https://via.placeholder.com/400x250" alt="QR Code Technology">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">March 5, 2024</span>
+                                <span class="blog-category">Technology</span>
+                            </div>
+                            <h2>The Future of QR Codes in Business</h2>
+                            <p>Explore how QR codes are evolving and their potential impact on business operations.</p>
+                            <a href="#" class="read-more">Read More →</a>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <img src="https://via.placeholder.com/400x250" alt="QR Code Security">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">February 28, 2024</span>
+                                <span class="blog-category">Security</span>
+                            </div>
+                            <h2>QR Code Security: What You Need to Know</h2>
+                            <p>Important security considerations when implementing QR codes in your business.</p>
+                            <a href="#" class="read-more">Read More →</a>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="pagination">
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <button class="pagination-btn">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About QR Codes</h4>
+                    <p>QR (Quick Response) codes are two-dimensional barcodes that can store various types of information. They were invented in 1994 by Denso Wave, a Japanese automotive company.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">GitHub</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 QR Code Generator. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+        document.querySelector('.nav-links').classList.toggle('active');
+    });
+    </script>
+</body>
+</html> 
