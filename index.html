@@ -6,344 +6,1388 @@
     <title>Free Online QR Code Generator - Make My QR Code</title>
     <meta name="description" content="Create custom QR codes online for free. Generate QR codes for URLs, text, and more with options for size and color. Easy to use and download.">
     <meta name="google-site-verification" content="rwCQWwaaYGMthZr9nNbXy30yOfOhVQqRXKIgQi8gEq0" />
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6148876069173529"
-     crossorigin="anonymous"></script>
-    <!-- External QR Code Library -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script> -->
+    
+    <!-- External Scripts -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6148876069173529" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
-    <!-- Add jsPDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- Link to external stylesheet -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Favicon (optional but good practice) -->
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔳</text></svg>">
+
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --primary-light: #66b3ff;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --white: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --border-radius-lg: 16px;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: var(--gray-800);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Navigation */
+        .main-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.05);
+            color: var(--primary-dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray-700);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+            background: rgba(0, 123, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-700);
+            padding: 0.5rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            background: var(--gray-100);
+            transform: scale(1.1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(0, 123, 255, 0.05) 50%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-section h1 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            text-align: left;
+            border: 1px solid var(--gray-200);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary-color);
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .options-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .preview-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            position: sticky;
+            top: 120px;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            background: var(--gray-100);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            padding: 0.5rem;
+            gap: 0.25rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .tab-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1rem;
+            border: none;
+            background: transparent;
+            color: var(--gray-600);
+            font-weight: 500;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+
+        .tab-button:hover {
+            background: var(--white);
+            color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .tab-button.active {
+            background: var(--white);
+            color: var(--primary-color);
+            box-shadow: var(--shadow-sm);
+            font-weight: 600;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding: 2rem;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Form Elements */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--white);
+            color: var(--gray-800);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-control:hover {
+            border-color: var(--gray-400);
+        }
+
+        select.form-control {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            cursor: pointer;
+        }
+
+        input[type="color"] {
+            height: 50px;
+            padding: 0.25rem;
+            cursor: pointer;
+            border-radius: var(--border-radius-sm);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--gray-300);
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.2);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--gray-600);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-700);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Preview Section */
+        .preview-panel h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .preview-container {
+            background: var(--gray-100);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--gray-300);
+            transition: var(--transition);
+        }
+
+        .preview-container:hover {
+            border-color: var(--primary-color);
+            background: rgba(0, 123, 255, 0.02);
+        }
+
+        #qrPreview {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #qrPreview canvas,
+        #qrPreview img {
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        #qrPreview canvas:hover,
+        #qrPreview img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Download Section */
+        .download-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--gray-50);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--gray-200);
+        }
+
+        .download-format {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .download-format label {
+            margin: 0;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .download-format select {
+            flex: 1;
+        }
+
+        #downloadBtn {
+            width: 100%;
+            font-size: 1.1rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--success-color), #1e7e34);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        #downloadBtn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        #downloadBtn:disabled {
+            background: var(--gray-400);
+            cursor: not-allowed;
+        }
+
+        /* Accordion */
+        .accordion-item {
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            background: transparent;
+            border: none;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-header:hover {
+            background: var(--gray-50);
+            color: var(--primary-color);
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--gray-500);
+            transition: var(--transition);
+        }
+
+        .accordion-header.active::after {
+            content: '−';
+            color: var(--primary-color);
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            padding: 0 1.5rem 1.5rem;
+            display: none;
+        }
+
+        .accordion-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 500px;
+            }
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        /* Template Gallery */
+        .template-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .template-item {
+            border: 2px solid var(--gray-300);
+            border-radius: var(--border-radius-sm);
+            padding: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--white);
+            text-align: center;
+        }
+
+        .template-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .template-item.active {
+            border-color: var(--primary-color);
+            background: rgba(0, 123, 255, 0.05);
+        }
+
+        .template-preview {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gray-100);
+            border-radius: var(--border-radius-sm);
+        }
+
+        .template-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        /* Use Cases Section */
+        .use-cases,
+        .how-to-use {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .use-cases h3,
+        .how-to-use h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .use-cases ul,
+        .how-to-use ol {
+            padding-left: 1.5rem;
+        }
+
+        .use-cases li,
+        .how-to-use li {
+            margin-bottom: 0.75rem;
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .site-footer {
+            margin-top: 4rem;
+            padding: 3rem 2rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: var(--gray-600);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-300);
+            color: var(--gray-500);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .main-layout {
+                grid-template-columns: 1fr 350px;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .preview-panel {
+                position: static;
+                order: -1;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .main-nav {
+                padding: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .tab-nav {
+                padding: 0.25rem;
+                gap: 0.125rem;
+            }
+
+            .tab-button {
+                padding: 0.625rem 0.75rem;
+                font-size: 0.85rem;
+            }
+
+            .tab-content {
+                padding: 1.5rem;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .download-format {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .template-gallery {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 1.75rem;
+            }
+
+            .hero-section p {
+                font-size: 1rem;
+            }
+
+            .template-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tab-button {
+                padding: 0.5rem 0.625rem;
+                font-size: 0.8rem;
+            }
+
+            .accordion-header {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Utilities */
+        .text-center {
+            text-align: center;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .d-none {
+            display: none;
+        }
+
+        .d-block {
+            display: block;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .justify-content-center {
+            justify-content: center;
+        }
+
+        .gap-1 {
+            gap: 0.5rem;
+        }
+
+        .gap-2 {
+            gap: 1rem;
+        }
+
+        .gap-3 {
+            gap: 1.5rem;
+        }
+
+        .mb-0 {
+            margin-bottom: 0;
+        }
+
+        .mb-1 {
+            margin-bottom: 0.5rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mt-1 {
+            margin-top: 0.5rem;
+        }
+
+        .mt-2 {
+            margin-top: 1rem;
+        }
+
+        .mt-3 {
+            margin-top: 1.5rem;
+        }
+
+        /* Loading States */
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gray-200);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-400);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-500);
+        }
+
+        /* Focus States */
+        *:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        button:focus,
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <nav class="main-nav">
             <a href="index.html" class="nav-logo">
-                <span>🔳</span>
-                QR Generator
+                <i class="fas fa-qrcode"></i>
+                QR Generator Pro
             </a>
-            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="nav-links">
                 <a href="index.html" class="active">Home</a>
                 <a href="about.html">About</a>
-                <!-- <a href="blog.html">Blog</a>
-                <a href="faq.html">FAQ</a>
-                <a href="contact.html">Contact</a> -->
             </div>
         </nav>
 
-        <h1>Free Online QR Code Generator</h1>
-
-        <!-- New Content Section -->
-        <div class="content-section">
-            <h2>Create Professional QR Codes in Seconds</h2>
-            <p>Welcome to our free QR code generator! Create beautiful, customizable QR codes for your business, marketing materials, or personal use. Our tool offers advanced features like logo integration, custom colors, and multiple style options.</p>
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1>Create Professional QR Codes</h1>
+            <p>Generate beautiful, customizable QR codes for your business, marketing materials, or personal use. Our advanced tool offers logo integration, custom colors, and multiple export formats.</p>
             
             <div class="features-grid">
                 <div class="feature-card">
+                    <i class="fas fa-magic"></i>
                     <h3>Easy to Use</h3>
                     <p>Generate QR codes in seconds with our intuitive interface. No technical knowledge required.</p>
                 </div>
                 <div class="feature-card">
+                    <i class="fas fa-palette"></i>
                     <h3>Highly Customizable</h3>
                     <p>Choose from multiple styles, colors, and add your logo to make your QR code stand out.</p>
                 </div>
                 <div class="feature-card">
+                    <i class="fas fa-download"></i>
                     <h3>Multiple Formats</h3>
                     <p>Download your QR code in various formats including PNG, SVG, JPEG, WEBP, and PDF.</p>
                 </div>
                 <div class="feature-card">
+                    <i class="fas fa-heart"></i>
                     <h3>Free to Use</h3>
                     <p>No hidden costs or watermarks. Generate unlimited QR codes for free.</p>
                 </div>
             </div>
-
-            <div class="use-cases">
-                <h3>Common Use Cases</h3>
-                <ul>
-                    <li>Business cards and marketing materials</li>
-                    <li>Product packaging and labels</li>
-                    <li>Event tickets and invitations</li>
-                    <li>Restaurant menus and contact information</li>
-                    <li>Social media profiles and website links</li>
-                    <li>Wi-Fi network sharing</li>
-                </ul>
-            </div>
-
-            <div class="how-to-use">
-                <h3>How to Use</h3>
-                <ol>
-                    <li>Enter your text or URL in the content field</li>
-                    <li>Customize the appearance using our style options</li>
-                    <li>Add your logo (optional)</li>
-                    <li>Download in your preferred format</li>
-                </ol>
-            </div>
         </div>
 
+        <!-- Main Application -->
         <div class="main-layout">
             <div class="options-panel">
                 <!-- Tab Navigation -->
                 <div class="tab-nav">
-                    <button class="tab-button active" data-tab="content-tab">Content</button>
-                    <button class="tab-button" data-tab="style-tab">Style & Colors</button>
-                    <button class="tab-button" data-tab="logo-tab">Logo</button>
-                    <button class="tab-button" data-tab="advanced-tab">Advanced</button>
-                    <button class="tab-button" data-tab="templates-tab">Templates</button>
+                    <button class="tab-button active" data-tab="content-tab">
+                        <i class="fas fa-edit"></i> Content
+                    </button>
+                    <button class="tab-button" data-tab="style-tab">
+                        <i class="fas fa-paint-brush"></i> Style
+                    </button>
+                    <button class="tab-button" data-tab="logo-tab">
+                        <i class="fas fa-image"></i> Logo
+                    </button>
+                    <button class="tab-button" data-tab="advanced-tab">
+                        <i class="fas fa-cog"></i> Advanced
+                    </button>
+                    <button class="tab-button" data-tab="templates-tab">
+                        <i class="fas fa-th-large"></i> Templates
+                    </button>
                 </div>
 
-                <!-- Tab Content -->
+                <!-- Content Tab -->
                 <div class="tab-content active" id="content-tab">
-                     <div class="options-section no-border">
-                        <h2>Content</h2>
-        <div class="input-group">
-            <label for="text">Text or URL</label>
-                           <input type="text" id="text" placeholder="Enter text or URL" value="https://make-my-qr-code.github.io/">
+                    <div class="input-group">
+                        <label for="text">
+                            <i class="fas fa-link"></i> Text or URL
+                        </label>
+                        <input type="text" id="text" class="form-control" 
+                               placeholder="Enter your URL, text, or message..." 
+                               value="https://make-my-qr-code.github.io/">
+                    </div>
+                </div>
+
+                <!-- Style Tab -->
+                <div class="tab-content" id="style-tab">
+                    <div class="accordion-item">
+                        <button class="accordion-header" data-target="dot-styles">
+                            <span><i class="fas fa-shapes"></i> Dot & Corner Styles</span>
+                        </button>
+                        <div class="accordion-content" id="dot-styles">
+                            <div class="input-group">
+                                <label for="dotStyle">Dot Style</label>
+                                <select id="dotStyle" class="form-control">
+                                    <option value="square">Square</option>
+                                    <option value="dots">Dots</option>
+                                    <option value="rounded">Rounded</option>
+                                    <option value="extra-rounded">Extra Rounded</option>
+                                    <option value="classy">Classy</option>
+                                    <option value="classy-rounded">Classy Rounded</option>
+                                </select>
+                            </div>
+                            <div class="grid-2">
+                                <div class="input-group">
+                                    <label for="cornerSquareStyle">Corner Square Style</label>
+                                    <select id="cornerSquareStyle" class="form-control">
+                                        <option value="square">Square</option>
+                                        <option value="dot">Dot</option>
+                                        <option value="extra-rounded">Extra Rounded</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label for="cornerDotStyle">Corner Dot Style</label>
+                                    <select id="cornerDotStyle" class="form-control">
+                                        <option value="square">Square</option>
+                                        <option value="dot">Dot</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
-        </div>
-        
-                <div class="tab-content" id="style-tab">
-                     <div class="options-section no-border accordion-container">
-                        
-                        <!-- Accordion Item 1: Basic Styles -->
-                        <div class="accordion-item">
-                            <button class="accordion-header">Dot & Corner Styles</button>
-                            <div class="accordion-content" style="display: none;"> <!-- Initially hidden -->
+
+                    <div class="accordion-item">
+                        <button class="accordion-header" data-target="color-styles">
+                            <span><i class="fas fa-palette"></i> Colors & Gradients</span>
+                        </button>
+                        <div class="accordion-content" id="color-styles">
+                            <!-- Dots Color Section -->
+                            <div class="color-section">
+                                <h4><i class="fas fa-circle"></i> Dots</h4>
                                 <div class="input-group">
-                                    <label for="dotStyle">Dot Style</label>
-                                    <select id="dotStyle">
-                                        <option value="square">Square</option>
-                                        <option value="dots">Dots</option>
-                                        <option value="rounded">Rounded</option>
-                                        <option value="extra-rounded">Extra Rounded</option>
-                                        <option value="classy">Classy</option>
-                                        <option value="classy-rounded">Classy Rounded</option>
-                                    </select>
+                                    <label class="d-flex align-items-center gap-1">
+                                        <input type="checkbox" id="dotGradientEnable">
+                                        Use Gradient
+                                    </label>
                                 </div>
-                                <div class="grid-2-col">
-                                     <div class="input-group">
-                                        <label for="cornerSquareStyle">Corner Square Style</label>
-                                        <select id="cornerSquareStyle">
-                                            <option value="square">Square</option>
-                                            <option value="dot">Dot</option>
-                                            <option value="extra-rounded">Extra Rounded</option>
-                                        </select>
-                                     </div>
-        <div class="input-group">
-                                        <label for="cornerDotStyle">Corner Dot Style</label>
-                                        <select id="cornerDotStyle">
-                                             <option value="square">Square</option>
-                                             <option value="dot">Dot</option>
-                                        </select>
-                                     </div>
-        </div>
-                            </div> <!-- End Accordion Content -->
-                        </div> <!-- End Accordion Item 1 -->
-
-                         <!-- Accordion Item 2: Colors & Gradients -->
-                        <div class="accordion-item">
-                            <button class="accordion-header">Colors & Gradients</button>
-                            <div class="accordion-content" style="display: none;"> <!-- Initially hidden -->
-                                 <!-- Foreground/Dots Color Section -->
-                                <div class="color-section sub-section">
-                                    <h3 class="sub-heading">Dots</h3>
+                                <div class="input-group" id="dotSolidColorGroup">
+                                    <label for="fgColor">Color</label>
+                                    <input type="color" id="fgColor" class="form-control" value="#000000">
+                                </div>
+                                <div class="gradient-controls d-none" id="dotGradientControls">
                                     <div class="input-group">
-                                        <input type="checkbox" id="dotGradientEnable"> <label for="dotGradientEnable" class="inline-label">Use Gradient</label>
+                                        <label>Gradient Type</label>
+                                        <div class="d-flex gap-2">
+                                            <label class="d-flex align-items-center gap-1">
+                                                <input type="radio" name="dotGradientType" id="dotGradientLinear" value="linear" checked>
+                                                Linear
+                                            </label>
+                                            <label class="d-flex align-items-center gap-1">
+                                                <input type="radio" name="dotGradientType" id="dotGradientRadial" value="radial">
+                                                Radial
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="input-group solid-color-option" id="dotSolidColorGroup">
-                                        <label for="fgColor">Color</label>
-                                        <input type="color" id="fgColor" value="#000000">
-                                    </div>
-                                    <div class="gradient-controls" id="dotGradientControls" style="display: none;">
-                                        <label class="sub-sub-heading">Dot Gradient</label>
+                                    <div class="grid-2">
                                         <div class="input-group">
-                                            <label>Type:</label>
-                                            <input type="radio" name="dotGradientType" id="dotGradientLinear" value="linear" checked> <label for="dotGradientLinear" class="inline-label">Linear</label>
-                                            <input type="radio" name="dotGradientType" id="dotGradientRadial" value="radial"> <label for="dotGradientRadial" class="inline-label">Radial</label>
+                                            <label for="dotGradientColor1">Color 1</label>
+                                            <input type="color" id="dotGradientColor1" class="form-control" value="#6a1a4c">
                                         </div>
-                                        <div class="grid-2-col">
-                                             <div class="input-group">
-                                                 <label for="dotGradientColor1">Color 1</label>
-                                                 <input type="color" id="dotGradientColor1" value="#6a1a4c">
-                                             </div>
-                                             <div class="input-group">
-                                                 <label for="dotGradientColor2">Color 2</label>
-                                                 <input type="color" id="dotGradientColor2" value="#000000">
-                                             </div>
-                                        </div>
-                                        <div class="input-group slider-group">
-                                             <label for="dotGradientRotation">Rotation (<span id="dotGradientRotationValue">0</span>°)</label>
-                                             <input type="range" id="dotGradientRotation" min="0" max="360" step="1" value="0">
+                                        <div class="input-group">
+                                            <label for="dotGradientColor2">Color 2</label>
+                                            <input type="color" id="dotGradientColor2" class="form-control" value="#000000">
                                         </div>
                                     </div>
-                                 </div>
-                                 <hr class="sub-divider">
-                                 <!-- Background Color Section -->
-                                <div class="color-section sub-section">
-                                     <h3 class="sub-heading">Background</h3>
-                                     <div class="input-group">
-                                        <input type="checkbox" id="bgGradientEnable"> <label for="bgGradientEnable" class="inline-label">Use Gradient</label>
+                                    <div class="input-group">
+                                        <label for="dotGradientRotation">
+                                            Rotation (<span id="dotGradientRotationValue">0</span>°)
+                                        </label>
+                                        <input type="range" id="dotGradientRotation" min="0" max="360" step="1" value="0">
                                     </div>
-                                     <div class="input-group solid-color-option" id="bgSolidColorGroup">
-                                        <label for="bgColor">Color</label>
-                <input type="color" id="bgColor" value="#FFFFFF">
-            </div>
-                                     <div class="gradient-controls" id="bgGradientControls" style="display: none;">
-                                          <label class="sub-sub-heading">Background Gradient</label>
-                                          <div class="input-group">
-                                              <label>Type:</label>
-                                              <input type="radio" name="bgGradientType" id="bgGradientLinear" value="linear" checked> <label for="bgGradientLinear" class="inline-label">Linear</label>
-                                              <input type="radio" name="bgGradientType" id="bgGradientRadial" value="radial"> <label for="bgGradientRadial" class="inline-label">Radial</label>
-                                          </div>
-                                          <div class="grid-2-col">
-                                               <div class="input-group">
-                                                   <label for="bgGradientColor1">Color 1</label>
-                                                   <input type="color" id="bgGradientColor1" value="#FFFFFF">
-                                               </div>
-                                               <div class="input-group">
-                                                   <label for="bgGradientColor2">Color 2</label>
-                                                   <input type="color" id="bgGradientColor2" value="#ededed">
-                                               </div>
-                                          </div>
-                                          <div class="input-group slider-group">
-                                               <label for="bgGradientRotation">Rotation (<span id="bgGradientRotationValue">0</span>°)</label>
-                                               <input type="range" id="bgGradientRotation" min="0" max="360" step="1" value="0">
-                                          </div>
-                                     </div>
-                                 </div>
-                                 <hr class="sub-divider">
-                                 <!-- Corner Square Color Section -->
-                                <div class="color-section sub-section">
-                                     <h3 class="sub-heading">Corner Squares</h3>
-                                     <div class="input-group">
-                                        <input type="checkbox" id="cornerSquareGradientEnable"> <label for="cornerSquareGradientEnable" class="inline-label">Use Gradient</label>
+                                </div>
+                            </div>
+
+                            <!-- Background Color Section -->
+                            <div class="color-section">
+                                <h4><i class="fas fa-square"></i> Background</h4>
+                                <div class="input-group">
+                                    <label class="d-flex align-items-center gap-1">
+                                        <input type="checkbox" id="bgGradientEnable">
+                                        Use Gradient
+                                    </label>
+                                </div>
+                                <div class="input-group" id="bgSolidColorGroup">
+                                    <label for="bgColor">Color</label>
+                                    <input type="color" id="bgColor" class="form-control" value="#FFFFFF">
+                                </div>
+                                <div class="gradient-controls d-none" id="bgGradientControls">
+                                    <div class="input-group">
+                                        <label>Gradient Type</label>
+                                        <div class="d-flex gap-2">
+                                            <label class="d-flex align-items-center gap-1">
+                                                <input type="radio" name="bgGradientType" id="bgGradientLinear" value="linear" checked>
+                                                Linear
+                                            </label>
+                                            <label class="d-flex align-items-center gap-1">
+                                                <input type="radio" name="bgGradientType" id="bgGradientRadial" value="radial">
+                                                Radial
+                                            </label>
+                                        </div>
                                     </div>
-                                     <div class="input-group solid-color-option" id="cornerSquareSolidColorGroup">
-                                        <label for="cornerSquareColor">Color</label>
-                                        <input type="color" id="cornerSquareColor" value="#000000">
+                                    <div class="grid-2">
+                                        <div class="input-group">
+                                            <label for="bgGradientColor1">Color 1</label>
+                                            <input type="color" id="bgGradientColor1" class="form-control" value="#FFFFFF">
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="bgGradientColor2">Color 2</label>
+                                            <input type="color" id="bgGradientColor2" class="form-control" value="#ededed">
+                                        </div>
                                     </div>
-                                     <div class="gradient-controls" id="cornerSquareGradientControls" style="display: none;">
-                                          <label class="sub-sub-heading">Corner Square Gradient</label>
-                                          <div class="input-group">
-                                              <label>Type:</label>
-                                              <input type="radio" name="cornerSquareGradientType" id="cornerSquareGradientLinear" value="linear" checked> <label for="cornerSquareGradientLinear" class="inline-label">Linear</label>
-                                              <input type="radio" name="cornerSquareGradientType" id="cornerSquareGradientRadial" value="radial"> <label for="cornerSquareGradientRadial" class="inline-label">Radial</label>
-                                          </div>
-                                          <div class="grid-2-col">
-                                               <div class="input-group">
-                                                   <label for="cornerSquareGradientColor1">Color 1</label>
-                                                   <input type="color" id="cornerSquareGradientColor1" value="#555555">
-                                               </div>
-                                               <div class="input-group">
-                                                   <label for="cornerSquareGradientColor2">Color 2</label>
-                                                   <input type="color" id="cornerSquareGradientColor2" value="#000000">
-                                               </div>
-                                          </div>
-                                          <div class="input-group slider-group">
-                                               <label for="cornerSquareGradientRotation">Rotation (<span id="cornerSquareGradientRotationValue">0</span>°)</label>
-                                               <input type="range" id="cornerSquareGradientRotation" min="0" max="360" step="1" value="0">
-                                          </div>
-                                     </div>
-                                 </div>
-                            </div> <!-- End Accordion Content -->
-                        </div> <!-- End Accordion Item 2 -->
-
-                    </div> <!-- End options-section -->
-                </div> <!-- End style-tab -->
-
-                 <div class="tab-content" id="logo-tab">
-                     <div class="options-section no-border accordion-container">
-                         <!-- Accordion Item: Logo Upload & Settings -->
-                         <div class="accordion-item">
-                             <button class="accordion-header">Logo Settings</button>
-                             <div class="accordion-content" style="display: none;"> <!-- Initially hidden -->
-                                 <div class="input-group">
-                                    <label for="logoUpload" class="file-label">Upload Logo (Optional)</label>
-                                    <input type="file" id="logoUpload" accept="image/png, image/jpeg, image/svg+xml">
-                                    <img id="logoPreview" alt="Logo preview" style="max-width: 50px; max-height: 50px; margin-top: 10px; display: none; vertical-align: middle;">
+                                    <div class="input-group">
+                                        <label for="bgGradientRotation">
+                                            Rotation (<span id="bgGradientRotationValue">0</span>°)
+                                        </label>
+                                        <input type="range" id="bgGradientRotation" min="0" max="360" step="1" value="0">
+                                    </div>
                                 </div>
-                                 <div class="input-group">
-                                      <button id="removeLogoBtn" class="button-secondary" style="display: none;">Remove Logo</button>
-                                 </div>
-                                 <hr class="sub-divider"> <!-- Optional separator -->
-                                 <div class="input-group slider-group">
-                                     <label for="logoSize">Logo Size (<span id="logoSizeValue">0.4</span>)</label>
-                                     <input type="range" id="logoSize" min="0.1" max="0.6" step="0.05" value="0.4">
-                                 </div>
-                                 <div class="input-group slider-group">
-                                     <label for="logoMargin">Logo Margin (<span id="logoMarginValue">4</span> px)</label>
-                                     <input type="range" id="logoMargin" min="0" max="20" step="1" value="4">
-                                 </div>
-                                 <div class="input-group checkbox-group">
-                                     <input type="checkbox" id="logoBackground" checked>
-                                     <label for="logoBackground">Hide QR dots behind logo</label>
-                                 </div>
-                             </div> <!-- End Accordion Content -->
-                         </div> <!-- End Accordion Item -->
-                     </div> <!-- End options-section -->
-                 </div> <!-- End logo-tab -->
+                            </div>
 
-                <div class="tab-content" id="advanced-tab">
-                    <div class="options-section no-border accordion-container">
-                         <!-- Accordion Item: Output Settings -->
-                         <div class="accordion-item">
-                            <button class="accordion-header">Output Settings</button>
-                             <div class="accordion-content" style="display: none;"> <!-- Initially hidden -->
-                                 <div class="input-group">
-                                    <label for="size">QR Code Size (px) <small>(50-2000)</small></label>
-                                    <input type="number" id="size" value="300" min="50" max="2000">
+                            <!-- Corner Squares Color Section -->
+                            <div class="color-section">
+                                <h4><i class="fas fa-vector-square"></i> Corner Squares</h4>
+                                <div class="input-group">
+                                    <label class="d-flex align-items-center gap-1">
+                                        <input type="checkbox" id="cornerSquareGradientEnable">
+                                        Use Gradient
+                                    </label>
                                 </div>
-                                 <div class="input-group slider-group">
-                                    <label for="qrMargin">QR Margin (<span id="qrMarginValue">10</span> px)</label>
-                                    <input type="range" id="qrMargin" min="0" max="50" step="1" value="10">
+                                <div class="input-group" id="cornerSquareSolidColorGroup">
+                                    <label for="cornerSquareColor">Color</label>
+                                    <input type="color" id="cornerSquareColor" class="form-control" value="#000000">
                                 </div>
-                             </div> <!-- End Accordion Content -->
-                         </div> <!-- End Accordion Item 1 -->
-                         <!-- Accordion Item: QR Code Internals -->
-                         <div class="accordion-item">
-                             <button class="accordion-header">QR Code Internals</button>
-                             <div class="accordion-content" style="display: none;"> <!-- Initially hidden -->
-                                 <div class="input-group">
-                                    <label for="errorCorrectionLevel">Error Correction</label>
-                                    <select id="errorCorrectionLevel">
-                                        <option value="L">Low (L)</option>
-                                        <option value="M">Medium (M)</option>
-                                        <option value="Q">Quartile (Q)</option>
-                                        <option value="H" selected>High (H)</option>
-                                    </select>
-                                    <p class="help-text">Higher levels improve robustness but increase density.</p>
+                                <div class="gradient-controls d-none" id="cornerSquareGradientControls">
+                                    <div class="input-group">
+                                        <label>Gradient Type</label>
+                                        <div class="d-flex gap-2">
+                                            <label class="d-flex align-items-center gap-1">
+                                                <input type="radio" name="cornerSquareGradientType" id="cornerSquareGradientLinear" value="linear" checked>
+                                                Linear
+                                            </label>
+                                            <label class="d-flex align-items-center gap-1">
+                                                <input type="radio" name="cornerSquareGradientType" id="cornerSquareGradientRadial" value="radial">
+                                                Radial
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="grid-2">
+                                        <div class="input-group">
+                                            <label for="cornerSquareGradientColor1">Color 1</label>
+                                            <input type="color" id="cornerSquareGradientColor1" class="form-control" value="#555555">
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="cornerSquareGradientColor2">Color 2</label>
+                                            <input type="color" id="cornerSquareGradientColor2" class="form-control" value="#000000">
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="cornerSquareGradientRotation">
+                                            Rotation (<span id="cornerSquareGradientRotationValue">0</span>°)
+                                        </label>
+                                        <input type="range" id="cornerSquareGradientRotation" min="0" max="360" step="1" value="0">
+                                    </div>
                                 </div>
-                             </div> <!-- End Accordion Content -->
-                         </div> <!-- End Accordion Item 2 -->
-                    </div> <!-- End options-section -->
-                </div> <!-- End advanced-tab -->
-
-                 <div class="tab-content" id="templates-tab">
-                     <div class="options-section no-border">
-                         <h2>Select a Template</h2>
-                         <div class="template-gallery" id="templateGallery">
-                            <!-- Template previews will be generated here by script.js -->
+                            </div>
                         </div>
-            </div>
-        </div>
-        
-            </div> <!-- End options-panel -->
+                    </div>
+                </div>
 
+                <!-- Logo Tab -->
+                <div class="tab-content" id="logo-tab">
+                    <div class="accordion-item">
+                        <button class="accordion-header active" data-target="logo-settings">
+                            <span><i class="fas fa-image"></i> Logo Settings</span>
+                        </button>
+                        <div class="accordion-content active" id="logo-settings">
+                            <div class="input-group">
+                                <label for="logoUpload" class="btn btn-outline">
+                                    <i class="fas fa-upload"></i> Upload Logo
+                                </label>
+                                <input type="file" id="logoUpload" accept="image/png, image/jpeg, image/svg+xml" class="d-none">
+                                <div id="logoPreview" class="mt-2 d-none">
+                                    <img id="logoPreviewImg" alt="Logo preview" style="max-width: 100px; max-height: 100px; border-radius: 8px; border: 2px solid var(--gray-300);">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <button id="removeLogoBtn" class="btn btn-secondary d-none">
+                                    <i class="fas fa-trash"></i> Remove Logo
+                                </button>
+                            </div>
+                            <div class="input-group">
+                                <label for="logoSize">
+                                    Logo Size (<span id="logoSizeValue">0.4</span>)
+                                </label>
+                                <input type="range" id="logoSize" min="0.1" max="0.6" step="0.05" value="0.4">
+                            </div>
+                            <div class="input-group">
+                                <label for="logoMargin">
+                                    Logo Margin (<span id="logoMarginValue">4</span> px)
+                                </label>
+                                <input type="range" id="logoMargin" min="0" max="20" step="1" value="4">
+                            </div>
+                            <div class="input-group">
+                                <label class="d-flex align-items-center gap-1">
+                                    <input type="checkbox" id="logoBackground" checked>
+                                    Hide QR dots behind logo
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Tab -->
+                <div class="tab-content" id="advanced-tab">
+                    <div class="accordion-item">
+                        <button class="accordion-header active" data-target="output-settings">
+                            <span><i class="fas fa-cog"></i> Output Settings</span>
+                        </button>
+                        <div class="accordion-content active" id="output-settings">
+                            <div class="input-group">
+                                <label for="size">QR Code Size (px)</label>
+                                <input type="number" id="size" class="form-control" value="300" min="50" max="2000">
+                                <small class="text-muted">Range: 50-2000 pixels</small>
+                            </div>
+                            <div class="input-group">
+                                <label for="qrMargin">
+                                    QR Margin (<span id="qrMarginValue">10</span> px)
+                                </label>
+                                <input type="range" id="qrMargin" min="0" max="50" step="1" value="10">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header" data-target="qr-internals">
+                            <span><i class="fas fa-wrench"></i> QR Code Internals</span>
+                        </button>
+                        <div class="accordion-content" id="qr-internals">
+                            <div class="input-group">
+                                <label for="errorCorrectionLevel">Error Correction Level</label>
+                                <select id="errorCorrectionLevel" class="form-control">
+                                    <option value="L">Low (L) - 7% recovery</option>
+                                    <option value="M">Medium (M) - 15% recovery</option>
+                                    <option value="Q">Quartile (Q) - 25% recovery</option>
+                                    <option value="H" selected>High (H) - 30% recovery</option>
+                                </select>
+                                <small class="text-muted">Higher levels improve robustness but increase density.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Templates Tab -->
+                <div class="tab-content" id="templates-tab">
+                    <h3><i class="fas fa-th-large"></i> Select a Template</h3>
+                    <div class="template-gallery" id="templateGallery">
+                        <!-- Templates will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Panel -->
             <div class="preview-panel">
-                <h2>Preview</h2>
-        <div class="preview">
-            <div id="qrPreview"></div>
-        </div>
-                <!-- Download Area -->
-                <div class="download-section mobile-optimized">
-                     <div class="input-group download-format">
-                        <label for="downloadFormat">Format:</label>
-                        <select id="downloadFormat">
+                <h2><i class="fas fa-eye"></i> Live Preview</h2>
+                <div class="preview-container">
+                    <div id="qrPreview">
+                        <div style="color: var(--gray-500); font-size: 1.1rem;">
+                            <i class="fas fa-qrcode" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+                            Your QR code will appear here
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download Section -->
+                <div class="download-section">
+                    <div class="download-format">
+                        <label for="downloadFormat">
+                            <i class="fas fa-file-download"></i> Format:
+                        </label>
+                        <select id="downloadFormat" class="form-control">
                             <option value="png" selected>PNG</option>
                             <option value="svg">SVG</option>
                             <option value="jpeg">JPEG</option>
@@ -351,53 +1395,603 @@
                             <option value="pdf">PDF</option>
                         </select>
                     </div>
-                    <button id="downloadBtn" disabled>Download</button>
-                </div>
-                 <!-- Ad Placeholder -->
-                <div id="monetization-area" style="margin-top: 1.5rem; text-align: center; min-height: 50px;">
-                    <!-- Ad code -->
+                    <button id="downloadBtn" disabled>
+                        <i class="fas fa-download"></i> Download QR Code
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- New Footer Section -->
+        <!-- Information Sections -->
+        <div class="use-cases">
+            <h3><i class="fas fa-lightbulb"></i> Common Use Cases</h3>
+            <ul>
+                <li><i class="fas fa-business-time"></i> Business cards and marketing materials</li>
+                <li><i class="fas fa-box"></i> Product packaging and labels</li>
+                <li><i class="fas fa-ticket-alt"></i> Event tickets and invitations</li>
+                <li><i class="fas fa-utensils"></i> Restaurant menus and contact information</li>
+                <li><i class="fas fa-share-alt"></i> Social media profiles and website links</li>
+                <li><i class="fas fa-wifi"></i> Wi-Fi network sharing</li>
+            </ul>
+        </div>
+
+        <div class="how-to-use">
+            <h3><i class="fas fa-list-ol"></i> How to Use</h3>
+            <ol>
+                <li><i class="fas fa-edit"></i> Enter your text or URL in the content field</li>
+                <li><i class="fas fa-paint-brush"></i> Customize the appearance using our style options</li>
+                <li><i class="fas fa-image"></i> Add your logo (optional)</li>
+                <li><i class="fas fa-download"></i> Download in your preferred format</li>
+            </ol>
+        </div>
+
+        <!-- Footer -->
         <footer class="site-footer">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>About QR Codes</h4>
-                    <p>QR (Quick Response) codes are two-dimensional barcodes that can store various types of information. They were invented in 1994 by Denso Wave, a Japanese automotive company.</p>
+                    <h4><i class="fas fa-info-circle"></i> About QR Codes</h4>
+                    <p>QR (Quick Response) codes are two-dimensional barcodes that can store various types of information. They were invented in 1994 by Denso Wave, a Japanese automotive company, and have become essential tools for bridging physical and digital experiences.</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Best Practices</h4>
+                    <h4><i class="fas fa-check-circle"></i> Best Practices</h4>
                     <ul>
-                        <li>Ensure sufficient contrast between QR code and background</li>
-                        <li>Leave adequate quiet zone around the QR code</li>
-                        <li>Test your QR code before distribution</li>
-                        <li>Keep URLs short for better scanning</li>
+                        <li><i class="fas fa-adjust"></i> Ensure sufficient contrast between QR code and background</li>
+                        <li><i class="fas fa-expand"></i> Leave adequate quiet zone around the QR code</li>
+                        <li><i class="fas fa-mobile-alt"></i> Test your QR code before distribution</li>
+                        <li><i class="fas fa-link"></i> Keep URLs short for better scanning</li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Resources</h4>
+                    <h4><i class="fas fa-external-link-alt"></i> Resources</h4>
                     <ul>
-                        <li><a href="/about">About Us</a></li>
-                        <!-- <li><a href="/blog">Blog</a></li>
-                        <li><a href="/faq">FAQ</a></li>
-                        <li><a href="/contact">Contact</a></li> -->
+                        <li><a href="/about"><i class="fas fa-users"></i> About Us</a></li>
+                        <li><a href="#" class="disabled"><i class="fas fa-blog"></i> Blog (Coming Soon)</a></li>
+                        <li><a href="#" class="disabled"><i class="fas fa-question-circle"></i> FAQ (Coming Soon)</a></li>
+                        <li><a href="#" class="disabled"><i class="fas fa-envelope"></i> Contact (Coming Soon)</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 QR Code Generator. All rights reserved.</p>
+                <p>&copy; 2024 QR Generator Pro. All rights reserved. Made with <i class="fas fa-heart" style="color: #dc3545;"></i> for the community.</p>
             </div>
         </footer>
     </div>
 
-    <!-- Link to external JavaScript file -->
-    <script src="script.js"></script>
     <script>
-    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-        document.querySelector('.nav-links').classList.toggle('active');
-    });
+        // Global variables
+        let qrCode = null;
+        let currentLogo = null;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            setupEventListeners();
+            setupTabNavigation();
+            setupAccordions();
+            generateTemplates();
+            generateQRCode();
+        }
+
+        function setupEventListeners() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileMenuBtn && navLinks) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+
+            // QR code generation triggers
+            const triggers = [
+                'text', 'dotStyle', 'cornerSquareStyle', 'cornerDotStyle',
+                'fgColor', 'bgColor', 'cornerSquareColor', 'size', 'qrMargin',
+                'errorCorrectionLevel', 'logoSize', 'logoMargin', 'logoBackground'
+            ];
+
+            triggers.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', generateQRCode);
+                    element.addEventListener('change', generateQRCode);
+                }
+            });
+
+            // Gradient controls
+            setupGradientControls();
+
+            // Logo upload
+            setupLogoUpload();
+
+            // Range input displays
+            setupRangeInputs();
+
+            // Download button
+            document.getElementById('downloadBtn').addEventListener('click', downloadQRCode);
+        }
+
+        function setupTabNavigation() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and buttons
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+        }
+
+        function setupAccordions() {
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const content = document.getElementById(targetId);
+                    const isActive = this.classList.contains('active');
+                    
+                    // Close all accordions in the same tab
+                    const tabContent = this.closest('.tab-content');
+                    const allHeaders = tabContent.querySelectorAll('.accordion-header');
+                    const allContents = tabContent.querySelectorAll('.accordion-content');
+                    
+                    allHeaders.forEach(h => h.classList.remove('active'));
+                    allContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Open clicked accordion if it wasn't active
+                    if (!isActive && content) {
+                        this.classList.add('active');
+                        content.classList.add('active');
+                    }
+                });
+            });
+
+            // Open first accordion in each tab by default
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                const firstHeader = tab.querySelector('.accordion-header');
+                const firstContent = tab.querySelector('.accordion-content');
+                if (firstHeader && firstContent) {
+                    firstHeader.classList.add('active');
+                    firstContent.classList.add('active');
+                }
+            });
+        }
+
+        function setupGradientControls() {
+            const gradientTypes = ['dot', 'bg', 'cornerSquare'];
+            
+            gradientTypes.forEach(type => {
+                const enableCheckbox = document.getElementById(`${type}GradientEnable`);
+                const solidGroup = document.getElementById(`${type}SolidColorGroup`);
+                const gradientControls = document.getElementById(`${type}GradientControls`);
+                
+                if (enableCheckbox && solidGroup && gradientControls) {
+                    enableCheckbox.addEventListener('change', function() {
+                        if (this.checked) {
+                            solidGroup.classList.add('d-none');
+                            gradientControls.classList.remove('d-none');
+                        } else {
+                            solidGroup.classList.remove('d-none');
+                            gradientControls.classList.add('d-none');
+                        }
+                        generateQRCode();
+                    });
+                }
+
+                // Gradient input listeners
+                const gradientInputs = [
+                    `${type}GradientColor1`, `${type}GradientColor2`, 
+                    `${type}GradientRotation`, `${type}GradientLinear`, `${type}GradientRadial`
+                ];
+                
+                gradientInputs.forEach(inputId => {
+                    const input = document.getElementById(inputId);
+                    if (input) {
+                        input.addEventListener('input', generateQRCode);
+                        input.addEventListener('change', generateQRCode);
+                    }
+                });
+            });
+        }
+
+        function setupLogoUpload() {
+            const logoUpload = document.getElementById('logoUpload');
+            const logoPreview = document.getElementById('logoPreview');
+            const logoPreviewImg = document.getElementById('logoPreviewImg');
+            const removeLogoBtn = document.getElementById('removeLogoBtn');
+
+            if (logoUpload) {
+                logoUpload.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            currentLogo = e.target.result;
+                            logoPreviewImg.src = currentLogo;
+                            logoPreview.classList.remove('d-none');
+                            removeLogoBtn.classList.remove('d-none');
+                            generateQRCode();
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            if (removeLogoBtn) {
+                removeLogoBtn.addEventListener('click', function() {
+                    currentLogo = null;
+                    logoUpload.value = '';
+                    logoPreview.classList.add('d-none');
+                    removeLogoBtn.classList.add('d-none');
+                    generateQRCode();
+                });
+            }
+        }
+
+        function setupRangeInputs() {
+            const ranges = [
+                'logoSize', 'logoMargin', 'qrMargin',
+                'dotGradientRotation', 'bgGradientRotation', 'cornerSquareGradientRotation'
+            ];
+
+            ranges.forEach(rangeId => {
+                const range = document.getElementById(rangeId);
+                const valueSpan = document.getElementById(rangeId + 'Value');
+                
+                if (range && valueSpan) {
+                    range.addEventListener('input', function() {
+                        valueSpan.textContent = this.value;
+                    });
+                }
+            });
+        }
+
+        function generateQRCode() {
+            const text = document.getElementById('text').value;
+            if (!text.trim()) return;
+
+            const qrPreview = document.getElementById('qrPreview');
+            const downloadBtn = document.getElementById('downloadBtn');
+
+            // Clear previous QR code
+            qrPreview.innerHTML = '';
+
+            // Get configuration
+            const config = getQRConfig();
+
+            try {
+                // Create QR code
+                qrCode = new QRCodeStyling(config);
+                qrCode.append(qrPreview);
+
+                // Enable download button
+                downloadBtn.disabled = false;
+            } catch (error) {
+                console.error('Error generating QR code:', error);
+                qrPreview.innerHTML = '<div style="color: var(--danger-color);"><i class="fas fa-exclamation-triangle"></i> Error generating QR code</div>';
+                downloadBtn.disabled = true;
+            }
+        }
+
+        function getQRConfig() {
+            const text = document.getElementById('text').value;
+            const size = parseInt(document.getElementById('size').value);
+            const margin = parseInt(document.getElementById('qrMargin').value);
+            const errorCorrectionLevel = document.getElementById('errorCorrectionLevel').value;
+
+            const config = {
+                width: size,
+                height: size,
+                type: "svg",
+                data: text,
+                margin: margin,
+                qrOptions: {
+                    typeNumber: 0,
+                    mode: "Byte",
+                    errorCorrectionLevel: errorCorrectionLevel
+                },
+                imageOptions: {
+                    hideBackgroundDots: document.getElementById('logoBackground').checked,
+                    imageSize: parseFloat(document.getElementById('logoSize').value),
+                    margin: parseInt(document.getElementById('logoMargin').value),
+                    crossOrigin: "anonymous"
+                },
+                dotsOptions: {
+                    color: getForegroundColor(),
+                    type: document.getElementById('dotStyle').value
+                },
+                backgroundOptions: {
+                    color: getBackgroundColor()
+                },
+                cornersSquareOptions: {
+                    color: getCornerSquareColor(),
+                    type: document.getElementById('cornerSquareStyle').value
+                },
+                cornersDotOptions: {
+                    color: getCornerSquareColor(),
+                    type: document.getElementById('cornerDotStyle').value
+                }
+            };
+
+            // Add logo if available
+            if (currentLogo) {
+                config.image = currentLogo;
+            }
+
+            return config;
+        }
+
+        function getForegroundColor() {
+            const dotGradientEnable = document.getElementById('dotGradientEnable').checked;
+            
+            if (dotGradientEnable) {
+                const type = document.querySelector('input[name="dotGradientType"]:checked').value;
+                const color1 = document.getElementById('dotGradientColor1').value;
+                const color2 = document.getElementById('dotGradientColor2').value;
+                const rotation = parseInt(document.getElementById('dotGradientRotation').value);
+                
+                return {
+                    type: type,
+                    rotation: rotation,
+                    colorStops: [
+                        { offset: 0, color: color1 },
+                        { offset: 1, color: color2 }
+                    ]
+                };
+            } else {
+                return document.getElementById('fgColor').value;
+            }
+        }
+
+        function getBackgroundColor() {
+            const bgGradientEnable = document.getElementById('bgGradientEnable').checked;
+            
+            if (bgGradientEnable) {
+                const type = document.querySelector('input[name="bgGradientType"]:checked').value;
+                const color1 = document.getElementById('bgGradientColor1').value;
+                const color2 = document.getElementById('bgGradientColor2').value;
+                const rotation = parseInt(document.getElementById('bgGradientRotation').value);
+                
+                return {
+                    type: type,
+                    rotation: rotation,
+                    colorStops: [
+                        { offset: 0, color: color1 },
+                        { offset: 1, color: color2 }
+                    ]
+                };
+            } else {
+                return document.getElementById('bgColor').value;
+            }
+        }
+
+        function getCornerSquareColor() {
+            const cornerSquareGradientEnable = document.getElementById('cornerSquareGradientEnable').checked;
+            
+            if (cornerSquareGradientEnable) {
+                const type = document.querySelector('input[name="cornerSquareGradientType"]:checked').value;
+                const color1 = document.getElementById('cornerSquareGradientColor1').value;
+                const color2 = document.getElementById('cornerSquareGradientColor2').value;
+                const rotation = parseInt(document.getElementById('cornerSquareGradientRotation').value);
+                
+                return {
+                    type: type,
+                    rotation: rotation,
+                    colorStops: [
+                        { offset: 0, color: color1 },
+                        { offset: 1, color: color2 }
+                    ]
+                };
+            } else {
+                return document.getElementById('cornerSquareColor').value;
+            }
+        }
+
+        function downloadQRCode() {
+            if (!qrCode) return;
+
+            const format = document.getElementById('downloadFormat').value;
+            const filename = `qr-code.${format}`;
+
+            if (format === 'pdf') {
+                downloadAsPDF();
+            } else {
+                qrCode.download({
+                    name: filename.replace(`.${format}`, ''),
+                    extension: format
+                });
+            }
+        }
+
+        function downloadAsPDF() {
+            if (!qrCode) return;
+
+            qrCode.getRawData('png').then(blob => {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF();
+                    const imgData = reader.result;
+                    
+                    // Add QR code to PDF
+                    pdf.addImage(imgData, 'PNG', 20, 20, 170, 170);
+                    pdf.save('qr-code.pdf');
+                };
+                reader.readAsDataURL(blob);
+            });
+        }
+
+        function generateTemplates() {
+            const templateGallery = document.getElementById('templateGallery');
+            if (!templateGallery) return;
+
+            const templates = [
+                { name: 'Default', config: { dotStyle: 'square', fgColor: '#000000', bgColor: '#ffffff' } },
+                { name: 'Modern', config: { dotStyle: 'rounded', fgColor: '#007bff', bgColor: '#f8f9fa' } },
+                { name: 'Elegant', config: { dotStyle: 'classy', fgColor: '#6c757d', bgColor: '#ffffff' } },
+                { name: 'Vibrant', config: { dotStyle: 'dots', fgColor: '#dc3545', bgColor: '#fff3cd' } },
+                { name: 'Nature', config: { dotStyle: 'extra-rounded', fgColor: '#28a745', bgColor: '#d4edda' } },
+                { name: 'Ocean', config: { dotStyle: 'classy-rounded', fgColor: '#17a2b8', bgColor: '#d1ecf1' } }
+            ];
+
+            templateGallery.innerHTML = '';
+
+            templates.forEach((template, index) => {
+                const templateItem = document.createElement('div');
+                templateItem.className = 'template-item';
+                templateItem.innerHTML = `
+                    <div class="template-preview">
+                        <div style="width: 60px; height: 60px; background: ${template.config.bgColor}; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--gray-300);">
+                            <div style="width: 40px; height: 40px; background: ${template.config.fgColor}; border-radius: ${template.config.dotStyle === 'rounded' || template.config.dotStyle === 'extra-rounded' ? '50%' : '0'}; opacity: 0.8;"></div>
+                        </div>
+                    </div>
+                    <div class="template-name">${template.name}</div>
+                `;
+
+                templateItem.addEventListener('click', function() {
+                    applyTemplate(template.config);
+                    
+                    // Update active state
+                    document.querySelectorAll('.template-item').forEach(item => item.classList.remove('active'));
+                    this.classList.add('active');
+                });
+
+                templateGallery.appendChild(templateItem);
+            });
+        }
+
+        function applyTemplate(config) {
+            // Apply template configuration
+            Object.keys(config).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.value = config[key];
+                }
+            });
+
+            // Regenerate QR code
+            generateQRCode();
+        }
+
+        // Utility functions
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Add loading states
+        function showLoading(element) {
+            element.classList.add('loading');
+        }
+
+        function hideLoading(element) {
+            element.classList.remove('loading');
+        }
+
+        // Error handling
+        window.addEventListener('error', function(e) {
+            console.error('Application error:', e.error);
+        });
+
+        // Performance optimization - debounce QR generation
+        const debouncedGenerate = debounce(generateQRCode, 300);
+
+        // Replace direct generateQRCode calls with debounced version for input events
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('input[type="text"], input[type="range"], input[type="color"]');
+            inputElements.forEach(element => {
+                element.removeEventListener('input', generateQRCode);
+                element.addEventListener('input', debouncedGenerate);
+            });
+        });
+
+        // Add smooth scrolling for mobile
+        if (window.innerWidth <= 768) {
+            document.documentElement.style.scrollBehavior = 'smooth';
+        }
+
+        // Add touch feedback for mobile
+        if ('ontouchstart' in window) {
+            document.body.classList.add('touch-device');
+            
+            // Add touch-optimized classes
+            document.querySelectorAll('.btn, .tab-button, .accordion-header, .template-item').forEach(element => {
+                element.classList.add('touch-optimized');
+            });
+        }
+
+        // Progressive Web App features
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('SW registered: ', registration);
+                }).catch(function(registrationError) {
+                    console.log('SW registration failed: ', registrationError);
+                });
+            });
+        }
+
+        // Analytics and tracking (placeholder)
+        function trackEvent(category, action, label) {
+            // Implement analytics tracking here
+            console.log('Event tracked:', { category, action, label });
+        }
+
+        // Track QR code generation
+        const originalGenerateQRCode = generateQRCode;
+        generateQRCode = function() {
+            originalGenerateQRCode();
+            trackEvent('QR Code', 'Generate', 'User Generated QR Code');
+        };
+
+        // Track downloads
+        const originalDownloadQRCode = downloadQRCode;
+        downloadQRCode = function() {
+            originalDownloadQRCode();
+            const format = document.getElementById('downloadFormat').value;
+            trackEvent('QR Code', 'Download', format.toUpperCase());
+        };
+
+        // Accessibility improvements
+        document.addEventListener('keydown', function(e) {
+            // Escape key closes mobile menu
+            if (e.key === 'Escape') {
+                const navLinks = document.querySelector('.nav-links');
+                if (navLinks && navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                }
+            }
+        });
+
+        // Focus management for keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-nav');
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-nav');
+        });
     </script>
 </body>
 </html>

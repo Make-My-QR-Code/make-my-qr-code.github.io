@@ -3,59 +3,858 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - QR Code Generator</title>
-    <meta name="description" content="Learn about our QR code generator service, our mission, and the team behind it.">
-    <link rel="stylesheet" href="style.css">
+    <title>About Us - QR Generator Pro</title>
+    <meta name="description" content="Learn about QR Generator Pro, our mission to make QR code generation accessible and beautiful for everyone, and the team behind the platform.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔳</text></svg>">
+
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --primary-light: #66b3ff;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --info-color: #17a2b8;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --white: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --border-radius-lg: 16px;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: var(--gray-800);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Navigation */
+        .main-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.05);
+            color: var(--primary-dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray-700);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+            background: rgba(0, 123, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-700);
+            padding: 0.5rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            background: var(--gray-100);
+            transform: scale(1.1);
+        }
+
+        /* Page Content */
+        .page-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About Sections */
+        .about-section {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .about-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-header h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .about-header p {
+            font-size: 1.2rem;
+            color: var(--gray-600);
+            line-height: 1.8;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            text-align: center;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Story Section */
+        .about-story {
+            background: linear-gradient(135deg, var(--gray-100), var(--white));
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+            margin: 3rem 0;
+        }
+
+        .about-story h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .about-story p {
+            font-size: 1.1rem;
+            color: var(--gray-700);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-story p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Stats Section */
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: var(--transition);
+            border: 2px solid var(--gray-200);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary-color);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        /* Team Section */
+        .about-team {
+            margin: 4rem 0;
+        }
+
+        .about-team h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 2rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-member {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-member::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 123, 255, 0.05), transparent);
+            transform: rotate(45deg);
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .team-member:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .team-member:hover::before {
+            opacity: 1;
+            animation: shimmer 1.5s ease-in-out;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: rotate(45deg) translateX(-200%);
+            }
+            100% {
+                transform: rotate(45deg) translateX(200%);
+            }
+        }
+
+        .member-avatar {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .team-member h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member p {
+            color: var(--gray-600);
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Values Section */
+        .about-values {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 4rem 3rem;
+            border-radius: var(--border-radius);
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .about-values h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .value-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+        }
+
+        .value-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .value-item i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .value-item h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .value-item p {
+            opacity: 0.9;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Footer */
+        .site-footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+            padding: 3rem 2rem 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-section p {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: var(--gray-600);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--gray-100);
+            border-radius: var(--border-radius-sm);
+            color: var(--gray-700);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-300);
+            color: var(--gray-500);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .main-nav {
+                padding: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .page-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .page-content h1 {
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .about-header h2 {
+                font-size: 2rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .feature-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .about-story {
+                padding: 2rem;
+            }
+
+            .about-story h2 {
+                font-size: 1.5rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .about-stats {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .about-team h2 {
+                font-size: 2rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .team-member {
+                padding: 2rem 1.5rem;
+            }
+
+            .about-values {
+                padding: 3rem 2rem;
+            }
+
+            .about-values h2 {
+                font-size: 2rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .page-content h1 {
+                font-size: 2rem;
+            }
+
+            .about-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem;
+            }
+
+            .feature-icon {
+                font-size: 3rem;
+            }
+
+            .about-story {
+                padding: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .member-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 3rem;
+            }
+
+            .about-values {
+                padding: 2rem 1.5rem;
+            }
+
+            .value-item {
+                padding: 1.5rem;
+            }
+
+            .value-item i {
+                font-size: 2rem;
+            }
+        }
+
+        /* Utilities */
+        .text-center {
+            text-align: center;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .justify-content-center {
+            justify-content: center;
+        }
+
+        .gap-1 {
+            gap: 0.5rem;
+        }
+
+        .gap-2 {
+            gap: 1rem;
+        }
+
+        .mb-0 {
+            margin-bottom: 0;
+        }
+
+        .mb-2 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gray-200);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-400);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-500);
+        }
+
+        /* Focus States */
+        *:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <nav class="main-nav">
             <a href="index.html" class="nav-logo">
-                <span>🔳</span>
-                QR Generator
+                <i class="fas fa-qrcode"></i>
+                QR Generator Pro
             </a>
-            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="about.html" class="active">About</a>
-                <!-- <a href="blog.html">Blog</a>
-                <a href="faq.html">FAQ</a>
-                <a href="contact.html">Contact</a> -->
             </div>
         </nav>
 
         <div class="page-content">
-            <h1>About Us</h1>
+            <h1><i class="fas fa-users"></i> About Us</h1>
             
             <div class="about-section">
                 <div class="about-header">
-                    <h2>Our Mission</h2>
-                    <p>We're dedicated to making QR code generation accessible, easy, and beautiful for everyone. Our goal is to help businesses and individuals create professional QR codes that enhance their digital presence.</p>
+                    <h2><i class="fas fa-bullseye"></i> Our Mission</h2>
+                    <p>We're dedicated to making QR code generation accessible, easy, and beautiful for everyone. Our goal is to help businesses and individuals create professional QR codes that enhance their digital presence and bridge the gap between physical and digital experiences.</p>
                 </div>
 
                 <div class="about-features">
                     <div class="feature-card">
                         <div class="feature-icon">🎯</div>
                         <h3>Our Vision</h3>
-                        <p>To be the most trusted and user-friendly QR code generator on the web, helping millions of users connect their physical and digital worlds.</p>
+                        <p>To be the most trusted and user-friendly QR code generator on the web, helping millions of users connect their physical and digital worlds seamlessly and beautifully.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">💡</div>
                         <h3>Innovation</h3>
-                        <p>We continuously improve our tool with new features and design options to meet evolving user needs.</p>
+                        <p>We continuously improve our tool with cutting-edge features, modern design options, and advanced customization capabilities to meet evolving user needs.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🤝</div>
                         <h3>User-First</h3>
-                        <p>Every feature we add is designed with our users in mind, ensuring a seamless and enjoyable experience.</p>
+                        <p>Every feature we add is designed with our users in mind, ensuring a seamless, enjoyable, and powerful experience that delivers real value.</p>
                     </div>
                 </div>
 
                 <div class="about-story">
-                    <h2>Our Story</h2>
-                    <p>Founded in 2024, our QR code generator was born from a simple observation: while QR codes are everywhere, creating beautiful, customized ones was unnecessarily complicated. We set out to change that.</p>
-                    <p>Today, we're proud to offer a powerful yet simple tool that helps businesses and individuals create professional QR codes in seconds.</p>
+                    <h2><i class="fas fa-book-open"></i> Our Story</h2>
+                    <p>Founded in 2024, QR Generator Pro was born from a simple observation: while QR codes are everywhere and incredibly useful, creating beautiful, customized ones was unnecessarily complicated and often expensive. We set out to change that.</p>
+                    <p>Our team of passionate developers and designers came together with a shared vision: to democratize QR code creation and make it accessible to everyone, from small business owners to large enterprises, from students to seasoned marketers.</p>
+                    <p>Today, we're proud to offer a powerful yet intuitive tool that helps businesses and individuals create professional QR codes in seconds, completely free of charge, with no hidden fees or watermarks.</p>
                 </div>
 
                 <div class="about-stats">
@@ -69,12 +868,43 @@
                     </div>
                     <div class="stat-card">
                         <div class="stat-number">24/7</div>
-                        <div class="stat-label">Support</div>
+                        <div class="stat-label">Support Available</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Free Forever</div>
                     </div>
                 </div>
 
-                <div class="about-team">
-                    <h2>Our Team</h2>
+                <div class="about-values">
+                    <h2><i class="fas fa-heart"></i> Our Values</h2>
+                    <p>These core principles guide everything we do and every decision we make.</p>
+                    <div class="values-grid">
+                        <div class="value-item">
+                            <i class="fas fa-gift"></i>
+                            <h3>Always Free</h3>
+                            <p>We believe powerful tools should be accessible to everyone, regardless of budget. That's why our service will always be free.</p>
+                        </div>
+                        <div class="value-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Privacy First</h3>
+                            <p>Your data is yours. We don't store your QR code content or personal information unnecessarily.</p>
+                        </div>
+                        <div class="value-item">
+                            <i class="fas fa-rocket"></i>
+                            <h3>Continuous Innovation</h3>
+                            <p>We're constantly adding new features and improving existing ones based on user feedback and emerging trends.</p>
+                        </div>
+                        <div class="value-item">
+                            <i class="fas fa-users"></i>
+                            <h3>Community Driven</h3>
+                            <p>Our roadmap is shaped by our users' needs and suggestions. Your feedback directly influences our development.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="about-team">
+                    <h2><i class="fas fa-users-cog"></i> Meet Our Team</h2>
                     <div class="team-grid">
                         <div class="team-member">
                             <div class="member-avatar">👨‍💻</div>
@@ -91,46 +921,209 @@
                             <h3>Mike Johnson</h3>
                             <p>Backend Developer</p>
                         </div>
+                        <div class="team-member">
+                            <div class="member-avatar">👩‍💼</div>
+                            <h3>Sarah Wilson</h3>
+                            <p>Product Manager</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-avatar">👨‍🎓</div>
+                            <h3>David Chen</h3>
+                            <p>Data Scientist</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-avatar">👩‍🚀</div>
+                            <h3>Lisa Anderson</h3>
+                            <p>Marketing Lead</p>
+                        </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
         <footer class="site-footer">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>About QR Codes</h4>
-                    <p>QR (Quick Response) codes are two-dimensional barcodes that can store various types of information. They were invented in 1994 by Denso Wave, a Japanese automotive company.</p>
+                    <h4><i class="fas fa-info-circle"></i> About QR Codes</h4>
+                    <p>QR (Quick Response) codes are two-dimensional barcodes that can store various types of information. They were invented in 1994 by Denso Wave, a Japanese automotive company, and have become essential tools for bridging physical and digital experiences.</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Quick Links</h4>
+                    <h4><i class="fas fa-link"></i> Quick Links</h4>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <!-- <li><a href="blog.html">Blog</a></li>
-                        <li><a href="faq.html">FAQ</a></li>
-                        <li><a href="contact.html">Contact</a></li> -->
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="about.html"><i class="fas fa-users"></i> About Us</a></li>
+                        <li><a href="#" class="disabled"><i class="fas fa-blog"></i> Blog (Coming Soon)</a></li>
+                        <li><a href="#" class="disabled"><i class="fas fa-question-circle"></i> FAQ (Coming Soon)</a></li>
+                        <li><a href="#" class="disabled"><i class="fas fa-envelope"></i> Contact (Coming Soon)</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Connect With Us</h4>
+                    <h4><i class="fas fa-share-alt"></i> Connect With Us</h4>
                     <div class="social-links">
-                        <a href="#" class="social-link">Twitter</a>
-                        <a href="#" class="social-link">LinkedIn</a>
-                        <a href="#" class="social-link">GitHub</a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-discord"></i> Discord
+                        </a>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 QR Code Generator. All rights reserved.</p>
+                <p>&copy; 2024 QR Generator Pro. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--danger-color);"></i> for the community.</p>
             </div>
         </footer>
     </div>
 
     <script>
-    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-        document.querySelector('.nav-links').classList.toggle('active');
-    });
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileMenuBtn && navLinks) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                    
+                    // Update button icon
+                    const icon = this.querySelector('i');
+                    if (navLinks.classList.contains('active')) {
+                        icon.className = 'fas fa-times';
+                    } else {
+                        icon.className = 'fas fa-bars';
+                    }
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!mobileMenuBtn.contains(e.target) && !navLinks.contains(e.target)) {
+                        navLinks.classList.remove('active');
+                        mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+                    }
+                });
+            }
+
+            // Add scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            const animatedElements = document.querySelectorAll('.feature-card, .stat-card, .team-member, .value-item');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+
+            // Add CSS for animate-in class
+            const style = document.createElement('style');
+            style.textContent = `
+                .animate-in {
+                    opacity: 1 !important;
+                    transform: translateY(0) !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Stagger animation for cards
+            animatedElements.forEach((el, index) => {
+                el.style.transitionDelay = `${index * 0.1}s`;
+            });
+
+            // Add smooth scrolling
+            document.documentElement.style.scrollBehavior = 'smooth';
+
+            // Accessibility improvements
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    navLinks.classList.remove('active');
+                    mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+                }
+            });
+
+            // Focus management for keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    document.body.classList.add('keyboard-nav');
+                }
+            });
+
+            document.addEventListener('mousedown', function() {
+                document.body.classList.remove('keyboard-nav');
+            });
+
+            // Progressive enhancement for reduced motion
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const style = document.createElement('style');
+                style.textContent = `
+                    *, *::before, *::after {
+                        animation-duration: 0.01ms !important;
+                        animation-iteration-count: 1 !important;
+                        transition-duration: 0.01ms !important;
+                        scroll-behavior: auto !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            // Add loading states and error handling
+            window.addEventListener('error', function(e) {
+                console.error('Page error:', e.error);
+            });
+
+            // Performance optimization
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(function() {
+                    // Preload critical resources
+                    const criticalLinks = document.querySelectorAll('a[href^="/"], a[href^="index.html"]');
+                    criticalLinks.forEach(link => {
+                        const url = new URL(link.href);
+                        if (url.origin === window.location.origin) {
+                            const prefetchLink = document.createElement('link');
+                            prefetchLink.rel = 'prefetch';
+                            prefetchLink.href = link.href;
+                            document.head.appendChild(prefetchLink);
+                        }
+                    });
+                });
+            }
+        });
+
+        // Add touch feedback for mobile devices
+        if ('ontouchstart' in window) {
+            document.body.classList.add('touch-device');
+            
+            const touchElements = document.querySelectorAll('.feature-card, .stat-card, .team-member, .value-item, .social-link');
+            touchElements.forEach(element => {
+                element.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+                
+                element.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        }
     </script>
 </body>
-</html> 
+</html>
